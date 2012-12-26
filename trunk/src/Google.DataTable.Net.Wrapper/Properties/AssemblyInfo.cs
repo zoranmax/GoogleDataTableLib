@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ClassLibrary1")]
+[assembly: AssemblyTitle("Google.DataTable.Net.Wrapper")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ClassLibrary1")]
-[assembly: AssemblyCopyright("Copyright Zoran Maksimovic © 2012, http://www.agile-code.com")]
+[assembly: AssemblyProduct("Google.DataTable.Net.Wrapper")]
+[assembly: AssemblyCopyright("Zoran Maksimovic © 2012, http://www.agile-code.com")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
