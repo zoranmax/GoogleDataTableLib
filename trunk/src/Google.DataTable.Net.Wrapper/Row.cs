@@ -23,15 +23,13 @@ using Google.DataTable.Net.Wrapper.Common;
 namespace Google.DataTable.Net.Wrapper
 {
     /// <summary>
-    /// Each row object has one required property called c, 
-    /// which is an array of cells in that row. 
-    /// It also has an optional p property that defines a map of arbitrary 
-    /// custom values to assign to the whole row. 
-    /// If your visualization supports any row-level properties it will describe them; 
-    /// otherwise, this property will be ignored.
+    ///A row is an array of cells, 
+    ///plus an optional map of arbitrary name/value pairs that you can assign.    
     /// </summary>
     public class Row: ISerializable
     {
+        private List<Cell> _cellList;
+
         /// <summary>
         /// Internal constructor as we don't allow the direct generation
         /// of the row due to the fact that the table Attribute is set
@@ -39,14 +37,14 @@ namespace Google.DataTable.Net.Wrapper
         /// </summary>
         internal Row()
         {
-            Cells = new List<Cell>();
+            _cellList = new List<Cell>();
+            ColumnTypes = new List<ColumnType>();
         }
 
         /// <summary>
-        /// DataTable to which the Row belongs
+        /// A reference to the available column types of the table. 
         /// </summary>
-
-        internal List<ColumnType> ColumnTypes { get; set; }       
+        internal IEnumerable<ColumnType> ColumnTypes { get; set; }       
 
         /// <summary>
         /// Adds a range of Cell objects
@@ -54,10 +52,24 @@ namespace Google.DataTable.Net.Wrapper
         /// <param name="cells"></param>
         public void AddCellRange(Cell[] cells)
         {
-            foreach (var c in cells)
+            if (cells == null)
+                return;
+
+            for (int i = 0; i < cells.Count(); i++)
             {
-                this.AddCell(c);
+                this.AddCell(cells[i], i);
             }
+        }
+
+        private Cell AddCell(Cell cell, int index)
+        {
+            //assigning the type to the cell
+            cell.ColumnType = ColumnTypes.ElementAt(index);
+
+            //TODO: Add a check on the Cell Type so that it matches the column type.
+
+            _cellList.Add(cell);
+            return cell;
         }
 
         /// <summary>
@@ -68,35 +80,20 @@ namespace Google.DataTable.Net.Wrapper
         public Cell AddCell(Cell cell)
         {
             //find this cell ordinal number
-            var cellNr = this.Cells.Count();
-
-            //assign the 
-            cell.ColumnType = ColumnTypes.ElementAt(cellNr);
-
-            //let's do some check around the type
-
-            Cells.Add(cell);
-            return cell;
+            var index = this.Cells.Count();
+            
+            return AddCell(cell, index);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public List<Cell> Cells { get; set; }
-
-        public string GetJson()
+        public IEnumerable<Cell> Cells
         {
-            var sb = new StringBuilder();
-
-            foreach (Cell c in Cells)
+            get
             {
-                sb.Append(c.GetJson());
-                sb.Append(", ");
+                return _cellList;
             }
-
-            string json = Helper.DoubleQuoteString("c") + ": [" + sb.ToString().Trim().TrimEnd(',') + "]";
-
-            return "{" + json.TrimEnd(',') + "}";
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -107,7 +104,7 @@ namespace Google.DataTable.Net.Wrapper
         protected Row (SerializationInfo info, StreamingContext context)
         {
             // Reset the property value using the GetValue method.
-            Cells = (List<Cell>)info.GetValue("c", typeof(List<Cell>));
+            _cellList = (List<Cell>)info.GetValue("c", typeof(List<Cell>));
         }
     }
 }

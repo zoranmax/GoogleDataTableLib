@@ -24,7 +24,7 @@ namespace Google.DataTable.Net.Wrapper.Common
         {
             if (text != null)
             {
-                sb.Append(string.Format("{0}: {1}, ", Helper.DoubleQuoteString(property.ToLower()), Helper.DoubleQuoteString(text)));
+                sb.Append(string.Format("\"{0}\": \"{1}\", ", property, text));
                 return true;
             }
             return false;
@@ -36,12 +36,11 @@ namespace Google.DataTable.Net.Wrapper.Common
             {
                 if (addBrackets)
                 {
-                    sb.Append(string.Format("{0}:{{{1}}}, ", Helper.DoubleQuoteString(property.ToLower()), text));
+                    sb.Append(string.Format("\"{0}\":{{{1}}}, ", property, text));
                 }
                 else
                 {
-                    sb.Append(string.Format("{0}: {1}, ", Helper.DoubleQuoteString(property.ToLower()),
-                                            Helper.DoubleQuoteString(text)));
+                    sb.Append(string.Format("\"{0}\": \"{1}\", ", property, text));
                 }
                 return true;
             }

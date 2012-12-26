@@ -19,16 +19,21 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text;
 using Google.DataTable.Net.Wrapper.Common;
+using System.IO;
 
 namespace Google.DataTable.Net.Wrapper
 {
     /// <summary>
-    /// Cells in the row array should be in the same order as their column descriptions in cols
+    /// Each cell is an object containing an actual value of the column type, 
+    /// plus an optional string-formatted version of the value that you provide. 
     /// 
-    /// v [Optional] The cell value. The data ColumnType should match the column data ColumnType.
-    ///  If null, the whole object should be empty and have neither v nor f properties.
-    /// 
-    /// 
+    /// <example>For example: a numeric column might be assigned the value 7 
+    /// and the formatted value "seven". 
+    /// If a formatted value is supplied, a chart will use the actual value for 
+    /// calculations and rendering, but might show the formatted value where appropriate, 
+    /// for example if the user hovers over a point. Each cell also has an optional 
+    /// map of arbitrary name/value pairs.
+    /// </example>
     /// </summary>
     public class Cell: ISerializable
     {
@@ -84,29 +89,15 @@ namespace Google.DataTable.Net.Wrapper
         /// any cell-level properties, it will describe them; otherwise, this property will be ignored. 
         /// <example>Example: p:{style: 'border: 1px solid green;'}.</example>
         /// </summary>
-        public string Properties { get; set; }
+        public string Properties { get; set; }       
 
         /// <summary>
-        /// Returns the Json string as expected by the Google Api
-        /// <example>
-        /// c:[{v: 'Mike'}, {v: new Date(2008, 1, 28), f:'February 28, 2008'}]
-        /// </example>
+        /// Returns the value formated depending on the object type.
         /// </summary>
+        /// <param name="columnType"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public string GetJson()
-        {
-            var sb = new StringBuilder();
-
-            sb.AppendIfNotNullOrEmpty("v", GetFormattedValue(this.ColumnType, this.Value));
-
-            sb.AppendIfNotNullOrEmpty("f", this.Formatted);
-            sb.AppendIfNotNullOrEmpty("p", this.Properties, true);         
-
-            string json = sb.ToString();
-            return "{" + json.Trim().TrimEnd(',') + "}";
-        }
-
-        private string GetFormattedValue(ColumnType columnType, object value)
+        internal string GetFormattedValue(ColumnType columnType, object value)
         {
             if (value == null)
             {
@@ -135,7 +126,7 @@ namespace Google.DataTable.Net.Wrapper
                     }
                     break;
                 case ColumnType.String:
-                    returnValue = value.ToString();
+                    returnValue = "\"" + value.ToString() + "\"";
                     break;
                 case ColumnType.Boolean:
                     returnValue = (bool) value ? "true" : "false";

@@ -19,15 +19,22 @@ using NUnit.Framework;
 namespace Google.DataTable.Net.Wrapper.Tests
 {
     [TestFixture]
-    public class ColumnTest
+    public class CellTest
     {
-        private const string TEST_ID = "TEST_ID";
-
         [Test]
-        public void CanCreateColumn()
+        public void Cell_CheckDefaultValuesUpponInstantiation()
         {
-            Column c = new Column(ColumnType.String);
-            Assert.That(c != null);
+            //Arrange ------------            
+            Cell c = new Cell();
+            
+            //Act -----------------
+
+            //Assert --------------
+            Assert.That(c!=null);
+            Assert.That(c.Properties == null);
+            Assert.That(c.Value == null);
+            Assert.That(c.Formatted == null);
+            Assert.That(c.ColumnType == ColumnType.String);
         }
     }
 }
