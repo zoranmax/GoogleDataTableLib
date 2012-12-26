@@ -23,14 +23,15 @@ namespace Google.DataTable.Net.Wrapper.Common
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string DoubleQuoteString(string value)
+        public static string DoubleQuoteString2(string value)
         {
-            if (string.IsNullOrEmpty(value))
+            //if (string.IsNullOrEmpty(value))
+            if (value.Length == 0)
             {
                 return "\"\"";
             }
 
-            return "\"" + value + "\"";
+            return string.Format("\"{0}\"", value);
         }        
     }
 }

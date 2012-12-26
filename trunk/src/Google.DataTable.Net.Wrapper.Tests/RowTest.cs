@@ -15,36 +15,73 @@
 */
 
 using NUnit.Framework;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Google.DataTable.Net.Wrapper.Tests
 {
     [TestFixture]
     public class RowTest
     {
-
         [Test]
-        public void GetRowWithTwoCellsAndGetJson()
+        public void Row_RowWithDefaultValues()
         {
             //Arrange ------------
-
-            DataTable dt = new DataTable();
-            dt.AddColumn(new Column(ColumnType.Number));
-
-            var row1 = dt.NewRow();
-
-
-            row1.AddCell(new Cell()
-                {
-                    Value = 100,
-                    Formatted = "100",
-                    ColumnType = ColumnType.Number
-                });
+            Row r = new Row(); //this is an internal constructor!
 
             //Act -----------------
-            var json = row1.GetJson();
 
             //Assert --------------
-            Assert.That(json == "{\"c\": [{\"v\": \"100\", \"f\": \"100\"}]}");
+            Assert.IsNotNull(r);
+            Assert.That(r.Cells.Count() == 0);
+            Assert.That(r.ColumnTypes.Count() == 0);
+        }
+
+        [Test]
+        public void Row_CanAddACell()
+        {
+            //Arrange ------------
+            Row r = new Row();
+            r.ColumnTypes = new List<ColumnType>() { ColumnType.Number };
+            Cell c = new Cell(100, "100");
+
+            //Act -----------------
+            r.AddCell(c);
+
+            //Assert --------------
+            Assert.That(r.Cells.Count() == 1);
+        }
+
+        [Test]
+        public void Row_CanAddARangeOfCells()
+        {
+            //Arrange ------------
+            Row r = new Row();
+            r.ColumnTypes = new List<ColumnType>() { ColumnType.Number, ColumnType.Number };
+
+            Cell c = new Cell(100);
+            Cell c2 = new Cell(200);
+            //Act -----------------
+            r.AddCellRange(new[] { c, c2 });
+
+            //Assert --------------
+            Assert.That(r.Cells.Count() == 2);
+        }
+
+        [Test]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void Row_AddARangeOfCellsThatHaveMoreItemsThanColumnsRaisesException()
+        {
+            //Arrange ------------
+            Row r = new Row();
+            r.ColumnTypes = new List<ColumnType>() { ColumnType.Number };
+            Cell c = new Cell(100);
+            Cell c2 = new Cell(200);
+            //Act -----------------
+            r.AddCellRange(new[] { c, c2 });
+
+            //Assert --------------
+
         }
     }
 }

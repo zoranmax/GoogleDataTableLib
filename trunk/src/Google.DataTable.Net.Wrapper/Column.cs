@@ -17,6 +17,7 @@
 using System.Runtime.Serialization;
 using System.Text;
 using Google.DataTable.Net.Wrapper.Common;
+using System.IO;
 
 namespace Google.DataTable.Net.Wrapper
 {
@@ -104,19 +105,36 @@ namespace Google.DataTable.Net.Wrapper
         /// Returns the Json string as expected by the Google Api
         /// </summary>
         /// <returns></returns>
-        public string GetJson()
+        internal void GetJson(StreamWriter sw)
         {
-            var sb = new StringBuilder();
+            sw.Write("{");
 
-            sb.AppendIfNotNullOrEmpty("type", this.ColumnType.ToString().ToLower());
-            sb.AppendIfNotNullOrEmpty("id", this.Id);
-            sb.AppendIfNotNullOrEmpty("label", this.Label);
-            sb.AppendIfNotNullOrEmpty("pattern", this.Pattern);
-            sb.AppendIfNotNullOrEmpty("p", this.Properties);
+            
+            sw.AppendIfNotNullOrEmpty("type", this.ColumnType.ToString().ToLower());
+            
 
-            string json = sb.ToString();
-            return "{" + json.Trim().TrimEnd(',') + "}";
-        }
+            if (this.Id != null)
+            {
+                sw.Write(",");
+                sw.AppendIfNotNullOrEmpty("id", this.Id);
+            }
+            if (this.Label != null)
+            {
+                sw.Write(",");
+                sw.AppendIfNotNullOrEmpty("label", this.Label);
+            }
+            if (this.Pattern != null)
+            {
+                sw.Write(",");
+                sw.AppendIfNotNullOrEmpty("pattern", this.Pattern);
+            }
+            if (this.Properties != null)
+            {
+                sw.Write(",");
+                sw.AppendIfNotNullOrEmpty("p", this.Properties);
+            }
+            sw.Write("}");
+        }      
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {

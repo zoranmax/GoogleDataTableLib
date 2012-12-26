@@ -18,6 +18,8 @@ using System;
 using System.Runtime.Serialization;
 using NUnit.Framework;
 using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Google.DataTable.Net.Wrapper.Tests
 {
@@ -48,7 +50,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             dt.AddRow(row);
             
             //Assert --------------
-            Assert.IsTrue(dt.Rows.Count == 1);
+            Assert.IsTrue(dt.Rows.Count() == 1);
         }
 
         [Test]
@@ -62,7 +64,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             dt.AddColumn(col);
            
             //Assert --------------
-            Assert.IsTrue(dt.Columns.Count == 1);
+            Assert.IsTrue(dt.Columns.Count() == 1);
         }
 
         [Test]
@@ -80,7 +82,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             var columns = dt.Columns;
 
             //Assert --------------
-            Assert.IsTrue(columns.Count == 2);
+            Assert.IsTrue(columns.Count() == 2);
         }
 
         [Test]
@@ -102,18 +104,20 @@ namespace Google.DataTable.Net.Wrapper.Tests
             //mentioned in the header as the attribute.
         }
 
-        [Test(Description="Unfortunately, is a known issue tha the deserialization for a custom generated class doesn't work")]
+        [Test(Description = "Unfortunately, is a known issue that the deserialization for a custom generated class doesn't work")]
         [ExpectedException(typeof(SerializationException))]
         public void CanDeserializeDataTableJsonWithJSonNet()
         {
             //Arrange ------------
             DataTable dt = GetExampleDataTable();
 
+            //Act ----------------
             var json = dt.GetJson();
+            var des = DeserializeFromJson(json);
 
             //Assert --------------
             Assert.IsTrue(json != null);
-            Assert.IsTrue(DeserializeFromJson(json) != null);
+            Assert.IsTrue(des != null);
         }
 
         private DataTable DeserializeFromJson(string json)
@@ -186,6 +190,45 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public DataTable GetNewDataTableInstance()
         {
           return new DataTable();
+        }
+
+        [Test]
+        [Explicit]
+        public void RunPerformanceTest()
+        {
+            const int TOTAL_NUM_OF_ROWS = 500;
+
+            DataTable dt = GetNewDataTableInstance();
+            var columnYear = new Column(ColumnType.Number, "Year");
+            var columnCount = new Column(ColumnType.String, "Count");
+
+            //Act -----------------
+            dt.AddColumn(columnYear);
+            dt.AddColumn(columnCount);
+            
+            var sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < TOTAL_NUM_OF_ROWS; i++)
+            {
+                var row = dt.NewRow();
+                row.AddCellRange(new Cell[]
+                {
+                    new Cell() {Value = 2012, Formatted = "2012"},
+                    new Cell() {Value = 1, Formatted = "1"}
+                });
+                dt.AddRow(row);
+            }
+            sw.Stop();
+            Debug.WriteLine("Adding rows: " + sw.ElapsedMilliseconds + " ms");
+            sw.Reset();
+            
+            sw.Start();
+            var json = dt.GetJson();
+            sw.Stop();
+            Debug.WriteLine("Serialization takes: " + sw.ElapsedMilliseconds + " ms");
+            Assert.That(json != null);
+            Assert.That(json.Length > 0);
+            Assert.True(true);
         }
     }
 }
