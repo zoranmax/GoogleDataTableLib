@@ -1,5 +1,6 @@
 ﻿/*
-   Copyright 2012 Zoran Maksimovic (zoran.maksimovich@gmail.com)
+   Copyright 2012 Zoran Maksimovic (zoran.maksimovich@gmail.com 
+   http://www.agile-code.com)
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
