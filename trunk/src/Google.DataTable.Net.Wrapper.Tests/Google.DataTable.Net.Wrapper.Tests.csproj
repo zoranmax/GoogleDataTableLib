@@ -51,6 +51,7 @@
     <Compile Include="RowTest.cs" />
     <Compile Include="DataTableTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemDataTableConverterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
