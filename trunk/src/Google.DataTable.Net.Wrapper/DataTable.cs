@@ -19,6 +19,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 using Google.DataTable.Net.Wrapper.Common;
 using System.IO;
@@ -34,6 +35,7 @@ namespace Google.DataTable.Net.Wrapper
     ///     https://developers.google.com/chart/interactive/docs/reference#DataTable
     /// </remarks>
     /// </summary>
+    [Serializable]
     public class DataTable : ISerializable
     {
         private readonly List<Row> _rows;
@@ -131,9 +133,8 @@ namespace Google.DataTable.Net.Wrapper
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
-                    rowsJson = sr.ReadToEnd();
-                    sr.Close();
-                };
+                    rowsJson = sr.ReadToEnd();                    
+                };                
             }
 
             return "{" + rowsJson + "}";
@@ -233,7 +234,8 @@ namespace Google.DataTable.Net.Wrapper
             sw.Write("]");
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("cols", this._columns);
             info.AddValue("rows", this._rows);
