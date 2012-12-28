@@ -18,6 +18,7 @@
 using System;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 using Google.DataTable.Net.Wrapper.Common;
 using System.IO;
@@ -36,6 +37,7 @@ namespace Google.DataTable.Net.Wrapper
     /// map of arbitrary name/value pairs.
     /// </example>
     /// </summary>
+    [Serializable]
     public class Cell: ISerializable
     {
         /// <summary>
@@ -152,7 +154,8 @@ namespace Google.DataTable.Net.Wrapper
             return returnValue;
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("columnType", this.ColumnType.ToString().ToLower());
             info.AddValue("v", this.Value);

@@ -15,13 +15,16 @@
    limitations under the License.
 */
 
+using System;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 using Google.DataTable.Net.Wrapper.Common;
 using System.IO;
 
 namespace Google.DataTable.Net.Wrapper
 {
+    [Serializable]
     public class Column : ISerializable
     {
         public Column()
@@ -137,7 +140,8 @@ namespace Google.DataTable.Net.Wrapper
             sw.Write("}");
         }      
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("columnType", this.ColumnType.ToString().ToLower());
             info.AddValue("id", this.Id);

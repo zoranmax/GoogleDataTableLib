@@ -15,9 +15,11 @@
    limitations under the License.
 */
 
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 using Google.DataTable.Net.Wrapper.Common;
 
@@ -27,6 +29,7 @@ namespace Google.DataTable.Net.Wrapper
     ///A row is an array of cells, 
     ///plus an optional map of arbitrary name/value pairs that you can assign.    
     /// </summary>
+    [Serializable]
     public class Row: ISerializable
     {
         private List<Cell> _cellList;
@@ -97,7 +100,8 @@ namespace Google.DataTable.Net.Wrapper
             }
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("c", this.Cells);             
         }
