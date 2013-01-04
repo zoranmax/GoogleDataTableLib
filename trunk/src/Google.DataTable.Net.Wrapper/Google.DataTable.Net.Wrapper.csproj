@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="Column.cs" />
+    <Compile Include="ColumnRole.cs" />
     <Compile Include="Common\StreamWriterExtensions.cs" />
     <Compile Include="DataTable.cs" />
     <Compile Include="ColumnType.cs" />

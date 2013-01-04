@@ -32,7 +32,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         {
             //Arrange ------------
             DataTable dt = null; 
-
+            
             //Act -----------------
             dt = new DataTable();
 

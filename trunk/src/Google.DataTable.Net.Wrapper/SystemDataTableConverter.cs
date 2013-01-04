@@ -57,7 +57,7 @@ namespace Google.DataTable.Net.Wrapper
             {
                 Row row = dt.NewRow();
 
-                List<Cell> cell = new List<Cell>();
+                var cell = new List<Cell>();
                 for (int i = 0; i < nrOfColumns; i++)
                 {
                     cell.Add(new Cell(systemRow[i]));
