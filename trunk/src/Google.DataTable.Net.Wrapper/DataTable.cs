@@ -20,8 +20,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
-using Google.DataTable.Net.Wrapper.Common;
 using System.IO;
 
 namespace Google.DataTable.Net.Wrapper

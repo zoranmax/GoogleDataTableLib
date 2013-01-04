@@ -15,6 +15,7 @@
    limitations under the License.
 */
 
+using System.IO;
 using NUnit.Framework;
 
 namespace Google.DataTable.Net.Wrapper.Tests
@@ -22,13 +23,72 @@ namespace Google.DataTable.Net.Wrapper.Tests
     [TestFixture]
     public class ColumnTest
     {
-        private const string TEST_ID = "TEST_ID";
-
-        [Test]
-        public void CanCreateColumn()
+        [Test(Description = "Checks that the column object can be created with the default constructor")]
+        public void Column_CanInstantiateColumn()
         {
-            Column c = new Column(ColumnType.String);
+            var c = new Column(ColumnType.String);
             Assert.That(c != null);
+        }
+
+        [Test(Description = "Checks that the Role field get's retruend in the json string")]
+        public void Column_Role_GetsProperlySerialized()
+        {
+            //Arrange ------------------
+            string columnJson;
+
+            var column = new Column(ColumnType.String)
+                {
+                    Role = ColumnRole.Annotation
+                };
+
+            //Act ----------------------
+            using (var ms = new MemoryStream())
+            {
+                var sw = new StreamWriter(ms);
+
+                column.GetJson(sw);
+
+                sw.Flush();
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    columnJson = sr.ReadToEnd();
+                }
+            }
+
+            //Assert -------------------
+            Assert.That(columnJson != null);
+            Assert.That(columnJson == "{\"type\": \"string\" , \"p\": { \"role\": \"annotation\"}}");
+        }
+
+        [Test(Description = "If the property and role are specified, this tests that the output in json gets generated properly")]
+        public void Column_Property_And_Role_Specified()
+        {
+            //Arrange ------------------
+            string columnJson;
+
+            var column = new Column(ColumnType.String);
+            column.Role = ColumnRole.Annotation;
+            column.Properties = "\"property1\": \"value\"";
+
+            //Act ----------------------
+            using (var ms = new MemoryStream())
+            {
+                var sw = new StreamWriter(ms);
+
+                column.GetJson(sw);
+
+                sw.Flush();
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    columnJson = sr.ReadToEnd();
+                }
+            }
+
+            //Assert -------------------
+            Assert.That(columnJson != null);
+            Assert.That(columnJson == "{\"type\": \"string\" , \"p\": { \"role\": \"annotation\", \"property1\": \"value\"}}");
         }
     }
 }

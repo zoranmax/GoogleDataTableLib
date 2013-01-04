@@ -18,7 +18,6 @@
 using System;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
 using Google.DataTable.Net.Wrapper.Common;
 using System.IO;
 
@@ -76,6 +75,17 @@ namespace Google.DataTable.Net.Wrapper
         /// </summary>
         public ColumnType ColumnType { get; set; }
 
+        /// <summary>        
+        /// A column role describes the purpose of the data in that column: 
+        /// for example, a column might hold data describing tooltip text, 
+        /// data point annotations, or uncertainty indicators.
+        /// </summary>
+        /// <remarks>
+        /// More info about the role can be read here
+        /// https://developers.google.com/chart/interactive/docs/roles
+        /// </remarks>
+        public string Role { get; set; }
+
         /// <summary>
         /// pattern [Optional] String pattern that was used by a data source 
         /// to format numeric, date, or time column values. 
@@ -112,30 +122,53 @@ namespace Google.DataTable.Net.Wrapper
         internal void GetJson(StreamWriter sw)
         {
             sw.Write("{");
-
             
             sw.AppendIfNotNullOrEmpty("type", this.ColumnType.ToString().ToLower());
             
-
             if (this.Id != null)
             {
                 sw.Write(",");
                 sw.AppendIfNotNullOrEmpty("id", this.Id);
             }
+
             if (this.Label != null)
             {
                 sw.Write(",");
                 sw.AppendIfNotNullOrEmpty("label", this.Label);
             }
+
             if (this.Pattern != null)
             {
                 sw.Write(",");
                 sw.AppendIfNotNullOrEmpty("pattern", this.Pattern);
             }
-            if (this.Properties != null)
+
+            if (this.Properties != null || this.Role!=null)
             {
-                sw.Write(",");
-                sw.AppendIfNotNullOrEmpty("p", this.Properties);
+                sw.Write(", \"p\": {");
+
+                string content = string.Empty;
+
+                if (!string.IsNullOrEmpty(this.Role))
+                {
+                    content = " \"role\": " + "\"" + this.Role + "\"";
+                }
+
+                if (!string.IsNullOrEmpty(this.Properties))
+                {
+                    if (!string.IsNullOrEmpty(content))
+                    {
+                        content += ", " + this.Properties;
+                    }
+                    else
+                    {
+                        content = this.Properties;
+                    }
+                }
+
+                sw.Write(content);
+
+                sw.Write("}");
             }
             sw.Write("}");
         }      
@@ -148,6 +181,7 @@ namespace Google.DataTable.Net.Wrapper
             info.AddValue("label", this.Label);
             info.AddValue("pattern", this.Pattern);
             info.AddValue("p", this.Properties);
+            info.AddValue("role", this.Role);
         }
 
         protected Column(SerializationInfo info, StreamingContext context)
@@ -157,6 +191,7 @@ namespace Google.DataTable.Net.Wrapper
             Label = (string) info.GetValue("label", typeof (string));
             Pattern = (string) info.GetValue("pattern", typeof (string));
             Properties = (string) info.GetValue("p", typeof (string));
+            Role = (string)info.GetValue("role", typeof(string));
         }
     }
 }
