@@ -193,6 +193,19 @@ namespace Google.DataTable.Net.Wrapper.Tests
           return new DataTable();
         }
 
+        [Test(Description = "Check that the column Id is automatically assigned")]
+        public void DataTable_Column_id_Assgined_if_Not_specified()
+        {
+            //Arrange -------------------
+            DataTable dt = GetNewDataTableInstance();
+            var column = new Column();
+            dt.AddColumn(column);       
+
+            //Assert -------------------
+            var columnId = dt.Columns.ElementAt(0).Id;
+            Assert.That( columnId == "Column 1");
+        }
+
         [Test]
         [Explicit]
         public void RunPerformanceTest()

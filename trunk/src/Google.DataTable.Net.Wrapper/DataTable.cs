@@ -38,6 +38,7 @@ namespace Google.DataTable.Net.Wrapper
     {
         private readonly List<Row> _rows;
         private readonly List<Column> _columns;
+        //internal cache of available column types.
         private readonly List<ColumnType> _columnTypes;
 
         /// <summary>
@@ -98,16 +99,33 @@ namespace Google.DataTable.Net.Wrapper
         /// <returns></returns>
         public Column AddColumn(Column column)
         {
+            AssignDefaultColumnName(column);
+
+            ThrowExceptionIfDuplicateId(column);
+
+            _columns.Add(column);
+            
+            //adding to the column type list as internal cache
+            _columnTypes.Add(column.ColumnType);
+            return column;
+        }
+
+        private void ThrowExceptionIfDuplicateId(Column column)
+        {
             var isExistingId = _columns.Any(x => x.Id == column.Id);
+
             if (isExistingId)
             {
                 throw new Exception(string.Format("Column with the ID: '{0}' already exists", column.Id));
             }
-            _columns.Add(column);
-            //adding to the column type list as internal cache. 
-            //performance reasons, as then, when calling NewRow(), there is no need to use Select.
-            _columnTypes.Add(column.ColumnType);
-            return column;
+        }
+
+        private void AssignDefaultColumnName(Column column)
+        {
+            if (string.IsNullOrEmpty(column.Id))
+            {
+                column.Id = "Column " + (_columns.Count + 1);
+            }
         }
 
         /// <summary>
