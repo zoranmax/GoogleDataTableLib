@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Google.DataTable.Net.Wrapper</id>
+    <version>2.0.0.0</version>
+    <title>Google.DataTable.Net.Wrapper</title>
+    <authors>Zoran Maksimovic</authors>
+    <owners>Zoran Maksimovic</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://googledatatablelib.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library enables the end users to create a lightweight representation of the  google.visualization.DataTable object directly in Microsoft.NET and obtain the necessary JSON as needed by the Google Chart Tools Javascript library.</description>
+    <releaseNotes>Version 2.0.0.0 has improved the serialization speed to a 2x factor. Object creation (rows and cells) speed has been improved by 44%.
+
+There are some breaking changes compared to the version 1.0.0.1 of the library which is:
+- Removed GetJson() method from the Cell object
+- Removed GetJson() method from the Row object
+- GetJson() method has been made "internal" for the Column object.
+- DataType for properties visible as public changed from List&lt;..&gt; to IEnumerable making it a bit more generic.</releaseNotes>
+    <copyright>Zoran Maksimovic (c) www.agile-code.com</copyright>
+    <language>en-US</language>
+    <tags>Google.Visualization, DataTable, Microsoft.NET, JSON, Javascript charts</tags>
+    <references>
+      <reference file="Google.DataTable.Net.Wrapper.dll" />
+    </references>
+  </metadata>
+</package>
