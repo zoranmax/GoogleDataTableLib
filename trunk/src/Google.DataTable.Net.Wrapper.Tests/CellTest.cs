@@ -27,7 +27,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public void Cell_CheckDefaultValuesUpponInstantiation()
         {
             //Arrange ------------            
-            Cell c = new Cell();
+            var c = new Cell();
             
             //Act -----------------
 
@@ -37,6 +37,58 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.That(c.Value == null);
             Assert.That(c.Formatted == null);
             Assert.That(c.ColumnType == ColumnType.String);
+        }
+
+        [Test]
+        public void Cell_CanAddProperty()
+        {
+            //Arrange ------------            
+            var c = new Cell();
+
+            //Act -----------------
+            c.AddProperty(new Property("style", "border:1"));
+            c.AddProperty(new Property("style2", "border:2"));
+
+            //Assert --------------
+            Assert.That(c.PropertyMap.Count() == 2);
+            Assert.That(c.PropertyMap.ElementAt(0).Name == "style");
+            Assert.That(c.PropertyMap.ElementAt(0).Value == "border:1");
+        }
+
+        [Test]
+        public void Cell_CanRemoveProperty()
+        {
+            //Arrange ------------            
+            var c = new Cell();
+
+            var property1 = c.AddProperty(new Property("style", "border:1"));
+            var property2 = c.AddProperty(new Property("style2", "border:2"));
+
+            //Act -----------------
+            c.RemoveProperty(property1);
+
+            //Assert --------------
+            Assert.That(c.PropertyMap.Count() == 1);
+            Assert.That(c.PropertyMap.ElementAt(0).Name == "style2");
+            Assert.That(c.PropertyMap.ElementAt(0).Value == "border:2");
+        }
+
+        [Test]
+        public void Cell_CanRemovePropertyByIndex()
+        {
+            //Arrange ------------            
+            var c = new Cell();
+
+            var property1 = c.AddProperty(new Property("style", "border:1"));
+            var property2 = c.AddProperty(new Property("style2", "border:2"));
+
+            //Act -----------------
+            c.RemoveProperty(0);
+
+            //Assert --------------
+            Assert.That(c.PropertyMap.Count() == 1);
+            Assert.That(c.PropertyMap.ElementAt(0).Name == "style2");
+            Assert.That(c.PropertyMap.ElementAt(0).Value == "border:2");
         }
     }
 }

@@ -23,11 +23,17 @@ namespace Google.DataTable.Net.Wrapper.Tests
             return result != null && result.Count > 0;
         }
 
-        public static Dictionary<string, object> GetDictionary(string jsonString)
+        public static Dictionary<string, object> GetDictionaryFromJson(string jsonString)
         {
             var serializer = new JavaScriptSerializer();
             var result = serializer.Deserialize<Dictionary<string, object>>(jsonString);
+            return result;
+        }
 
+        public static dynamic GetDynamicFromJson(string jsonString)
+        {
+            var serializer = new JavaScriptSerializer();
+            dynamic result = serializer.DeserializeObject(jsonString);
             return result;
         }
     }
