@@ -61,7 +61,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.That(columnJson != null);
 
             //check the values
-            var dictionary = JsonHelper.GetDictionary(columnJson);
+            var dictionary = JsonHelper.GetDictionaryFromJson(columnJson);
             var pDictionary = (Dictionary<string,object>)dictionary["p"];
             Assert.That(pDictionary != null);
             Assert.That(pDictionary["role"] != null);
@@ -99,17 +99,18 @@ namespace Google.DataTable.Net.Wrapper.Tests
             //Assert -------------------
             Assert.That(columnJson != null);
 
-            var dictionary = JsonHelper.GetDictionary(columnJson);
-            var pDictionary = (Dictionary<string, object>)dictionary["p"];
+            var dictionary = JsonHelper.GetDictionaryFromJson(columnJson);
+
             object roleValue;
             object propValue;
 
+            var pDictionary = (Dictionary<string, object>)dictionary["p"];
+            pDictionary.TryGetValue("role", out roleValue);
+            pDictionary.TryGetValue("property1", out propValue);
+
             Assert.That(pDictionary != null);
             Assert.That(pDictionary["role"] != null);
-            pDictionary.TryGetValue("role", out roleValue);
             Assert.That(((string)roleValue) == ColumnRole.Annotation);
-
-            pDictionary.TryGetValue("property1", out propValue);
             Assert.That(((string)propValue) == "value");
         }
     }
