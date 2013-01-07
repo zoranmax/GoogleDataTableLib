@@ -20,8 +20,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
-using Google.DataTable.Net.Wrapper.Common;
 
 namespace Google.DataTable.Net.Wrapper
 {
@@ -32,7 +30,8 @@ namespace Google.DataTable.Net.Wrapper
     [Serializable]
     public class Row: ISerializable
     {
-        private List<Cell> _cellList;
+        private readonly List<Cell> _cellList;
+        private readonly List<Property> _propertyMap;
 
         /// <summary>
         /// Internal constructor as we don't allow the direct generation
@@ -42,6 +41,7 @@ namespace Google.DataTable.Net.Wrapper
         internal Row()
         {
             _cellList = new List<Cell>();
+            _propertyMap = new List<Property>();
             ColumnTypes = new List<ColumnType>();
         }
 
@@ -70,7 +70,7 @@ namespace Google.DataTable.Net.Wrapper
             //assigning the type to the cell
             cell.ColumnType = ColumnTypes.ElementAt(index);
 
-            //TODO: Add a check on the Cell Type so that it matches the column type.
+            //TODO: Throw an error if Cell Value Type doesn't match the specified Column Type
 
             _cellList.Add(cell);
             return cell;
@@ -100,16 +100,55 @@ namespace Google.DataTable.Net.Wrapper
             }
         }
 
+        /// <summary>
+        /// Returns a list of currently assigned properties to the Row
+        /// </summary>
+        public IEnumerable<Property> PropertyMap
+        {
+            get { return _propertyMap; }            
+        }
+
+        /// <summary>
+        /// Adds a new property to the list of properties.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public Property AddProperty(Property p)
+        {
+            _propertyMap.Add(p);
+            return p;
+        }
+
+        /// <summary>
+        /// Removes a property from the Property Map
+        /// </summary>
+        /// <param name="p"></param>
+        public void RemoveProperty(Property p)
+        {
+            _propertyMap.Remove(p);
+        }
+
+        /// <summary>
+        /// Removes a property from the Property Map by an index.
+        /// </summary>
+        /// <param name="index"></param>
+        public void RemoveProperty(int index)
+        {
+            _propertyMap.RemoveAt(index);
+        }
+
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("c", this.Cells);             
+            info.AddValue("c", this.Cells);
+            info.AddValue("p", this.PropertyMap);
         }
 
-        protected Row (SerializationInfo info, StreamingContext context)
+        protected Row(SerializationInfo info, StreamingContext context)
         {
             // Reset the property value using the GetValue method.
-            _cellList = (List<Cell>)info.GetValue("c", typeof(List<Cell>));
+            _cellList = (List<Cell>) info.GetValue("c", typeof (List<Cell>));
+            _propertyMap = (List<Property>) info.GetValue("p", typeof (List<Property>));         
         }
     }
 }

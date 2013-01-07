@@ -203,7 +203,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Assert -------------------
             var columnId = dt.Columns.ElementAt(0).Id;
-            Assert.That( columnId == "Column 1");
+            Assert.That( columnId == "Column 0");
         }
 
         [Test]
