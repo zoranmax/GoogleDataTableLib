@@ -21,10 +21,29 @@ namespace Google.DataTable.Net.Wrapper
     /// Reserved for future usages.
     /// P values in reality should be a name -> value map
     /// </summary>
-    public class NameValue
+    public class Property
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public Property()
+        {
+            
+        }
+
+        /// <summary>
+        /// Constructor that has as input name and value
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public Property(string name, string value)
+        {
+            Name = name;
+            Value = value;
+        }
+
         public string Name { get; set; }
 
-        public object Value { get; set; }
+        public string Value { get; set; }
     }
 }

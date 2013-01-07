@@ -15,6 +15,7 @@
    limitations under the License.
 */
 
+using System.Web.Script.Serialization;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -34,10 +35,11 @@ namespace Google.DataTable.Net.Wrapper.Tests
             DataTable dt = GetNewDataTableInstance();
 
             //Act -----------------
-            var ret = dt.GetJson();
+            var json = dt.GetJson();
 
             //Assert --------------
-            Assert.That(ret != null);
+            Assert.That(json != null);
+            Assert.IsTrue(IsValidJson(json));
         }
 
 
@@ -57,6 +59,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Assert --------------
             Assert.IsTrue(json != null);
+            Assert.IsTrue(IsValidJson(json));
         }
 
         [Test]
@@ -80,6 +83,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Assert --------------
             Assert.IsTrue(json != null);
+            Assert.IsTrue(IsValidJson(json));
         }
 
         [Test]
@@ -105,6 +109,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.IsTrue(json != null);
             Assert.IsTrue(json.Contains("Ten"));
             Assert.IsTrue(json.Contains("MyYears"));
+            Assert.IsTrue(IsValidJson(json));
         }
 
         [Test]
@@ -131,6 +136,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.IsTrue(json != null);
             Assert.IsTrue(json.Contains("Ten"));
             Assert.IsTrue(json.Contains("MyYears"));
+            Assert.IsTrue(IsValidJson(json));
         }
 
         [Test]
@@ -157,6 +163,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.IsTrue(json != null);
             Assert.IsTrue(json.Contains("MyYears"));
             Assert.IsTrue(json.Contains("Now"));
+            Assert.IsTrue(IsValidJson(json));
         }
 
         [Test]
@@ -184,6 +191,44 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Assert --------------
             Assert.IsTrue(json != null);
+            Assert.IsTrue(IsValidJson(json));
+        }
+
+        [Test]
+        public void DataTable_CanSerializeRowPropertyMap()
+        {
+            //Arrange ------------
+            DataTable dt = GetNewDataTableInstance();
+            var col = new Column(ColumnType.Date, "Year", "Year");
+            var col2 = new Column(ColumnType.Number, "End Of Day Rate", "End Of Day Rate");
+
+            dt.AddColumn(col);
+            dt.AddColumn(col2);
+
+            for (int i = 0; i < 1; i++)
+            {
+                var row = dt.NewRow();
+                row.AddCell(new Cell() { Value = DateTime.Now.AddDays(-i), Formatted = "Year" });
+                row.AddCell(new Cell() { Value = i });
+                row.AddProperty(new Property("style", "border:1"));
+                row.AddProperty(new Property("fake", "fakeValue"));
+                dt.AddRow(row);
+            }
+
+            //Act -----------------
+            var json = dt.GetJson();
+
+            //Assert --------------
+            Assert.IsTrue(json != null);
+            Assert.IsTrue(IsValidJson(json));
+        }
+
+        private bool IsValidJson(string jsonString)
+        {
+            var serializer = new JavaScriptSerializer();
+            var result = serializer.Deserialize<Dictionary<string, object>>(jsonString);
+
+            return result != null && result.Count > 0;
         }
 
         /// <summary>

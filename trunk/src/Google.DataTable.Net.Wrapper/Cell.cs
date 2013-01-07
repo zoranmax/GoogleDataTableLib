@@ -136,19 +136,19 @@ namespace Google.DataTable.Net.Wrapper
                     break;
                 case ColumnType.Date:
                     var d = (DateTime) value;
-                    returnValue = string.Format("new Date({0}, {1}, {2})", d.Year, d.Month - 1, d.Day);
+                    returnValue = string.Format("\"new Date({0}, {1}, {2})\"", d.Year, d.Month - 1, d.Day);
                     break;
                 case ColumnType.Datetime:
                     var dt = (DateTime) value;
-                    returnValue = string.Format("new Date({0}, {1}, {2}, {3}, {4}, {5})", dt.Year, dt.Month - 1, dt.Day,
+                    returnValue = string.Format("\"new Date({0}, {1}, {2}, {3}, {4}, {5})\"", dt.Year, dt.Month - 1, dt.Day,
                                                 dt.Hour, dt.Minute, dt.Second);
                     break;
                 case ColumnType.Timeofday:
                      var tod = (DateTime)value;
-                     returnValue = string.Format("[{0}, {1}, {2}]", tod.Hour, tod.Minute, tod.Second);
+                     returnValue = string.Format("[\"{0}, {1}, {2}\"]", tod.Hour, tod.Minute, tod.Second);
                      break;
                 default:
-                    returnValue = value.ToString();
+                     returnValue = "\"" + value.ToString() + "\"";
                     break;
             }
             return returnValue;

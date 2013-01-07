@@ -74,9 +74,9 @@ namespace Google.DataTable.Net.Wrapper
         public Row NewRow()
         {
             return new Row
-            {
-                ColumnTypes = _columnTypes
-            };
+                {
+                    ColumnTypes = _columnTypes
+                };
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Google.DataTable.Net.Wrapper
             ThrowExceptionIfDuplicateId(column);
 
             _columns.Add(column);
-            
+
             //adding to the column type list as internal cache
             _columnTypes.Add(column.ColumnType);
             return column;
@@ -124,7 +124,7 @@ namespace Google.DataTable.Net.Wrapper
         {
             if (string.IsNullOrEmpty(column.Id))
             {
-                column.Id = "Column " + (_columns.Count + 1);
+                column.Id = "Column " + _columns.Count;
             }
         }
 
@@ -149,8 +149,9 @@ namespace Google.DataTable.Net.Wrapper
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
-                    rowsJson = sr.ReadToEnd();                    
-                };                
+                    rowsJson = sr.ReadToEnd();
+                }
+                ;
             }
 
             return "{" + rowsJson + "}";
@@ -167,7 +168,7 @@ namespace Google.DataTable.Net.Wrapper
         private void JsonizeRows(StreamWriter sw)
         {
             var rowCount = _rows.Count;
-            var lastItem = rowCount - 1;
+            var lastRow = rowCount - 1;
 
             sw.Write(" \"rows\" : [");
 
@@ -184,49 +185,79 @@ namespace Google.DataTable.Net.Wrapper
                 //for each cell
                 for (int j = 0; j < rowCellCount; j++)
                 {
-                    var currentCell = currentRow.Cells.ElementAt(j);
+                    Cell cell = currentRow.Cells.ElementAt(j);
 
-                    //Cells Start
-                    sw.Write("{");
-
-                    var value = currentCell.GetFormattedValue(currentCell.ColumnType, currentCell.Value);
-
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        sw.Write("\"v\": " + value + "");
-
-                        //if the value is empty then the formatted value
-                        //should be empty too.
-                        var formatted = currentCell.Formatted;
-                        if (formatted!=null && formatted.Length != 0)
-                        {
-                            sw.Write(", \"f\": \"" + formatted + "\"");
-                        }
-                    }
-
-                    var p = currentCell.Properties;
-                    if (value!=null && value.Length > 0 && !string.IsNullOrEmpty(p))
-                    {
-                        sw.Write(string.Format(", \"p\":{{{0}}}, ", p));
-                    }
-
-                    sw.Write("}");
-                    //Cells End
+                    JsonizeCell(sw, cell);
 
                     if (j != lastCell)
                     {
                         sw.Write(", ");
                     }
                 }
-                sw.Write("]}");
 
+                sw.Write("]");
 
-                if (i != lastItem)
+                if (currentRow.PropertyMap.Any())
+                {
+                    var properties = currentRow.PropertyMap;
+                    var propertiesCount = properties.Count();
+                    var lastProperty = propertiesCount - 1;
+
+                    sw.Write(", \"p\": {");
+                    for (int p = 0; p < propertiesCount; p++)
+                    {
+                        Property currentProperty = properties.ElementAt(p);
+
+                        sw.Write("\"" + currentProperty.Name + "\" : \"" + currentProperty.Value + "\"");
+
+                        if (p != lastProperty)
+                        {
+                            sw.Write(",");
+                        }
+                    }
+                    sw.Write("}");
+                }
+
+                sw.Write("}");
+
+                if (i != lastRow)
                 {
                     sw.Write(", ");
                 }
             }
             sw.Write("]");
+        }
+
+        protected void JsonizeCell(StreamWriter sw, Cell cell)
+        {
+            var currentCell = cell;
+
+            //Cells Start
+            sw.Write("{");
+
+            var value = currentCell.GetFormattedValue(currentCell.ColumnType, currentCell.Value);
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                sw.Write("\"v\": " + value + "");
+
+                //if the value is empty then the formatted value
+                //should be empty too.
+                var formatted = currentCell.Formatted;
+                if (!string.IsNullOrEmpty(formatted))
+                {
+                    sw.Write(", \"f\": \"" + formatted + "\"");
+                }
+            }
+
+            var p = currentCell.Properties;
+            if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(p))
+            {
+                sw.Write(string.Format(", \"p\":{{{0}}} ", p));
+            }
+
+            sw.Write("}");
+            //Cells End
         }
 
         /// <summary>
@@ -260,8 +291,8 @@ namespace Google.DataTable.Net.Wrapper
         protected DataTable(SerializationInfo info, StreamingContext context)
         {
             // Reset the property value using the GetValue method.
-            _columns = (List<Column>)info.GetValue("cols", typeof(List<Column>));
-            _rows = (List<Row>)info.GetValue("rows", typeof(List<Row>));
+            _columns = (List<Column>) info.GetValue("cols", typeof (List<Column>));
+            _rows = (List<Row>) info.GetValue("rows", typeof (List<Row>));
         }
     }
 }
