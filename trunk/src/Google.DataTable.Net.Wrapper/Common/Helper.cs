@@ -14,6 +14,10 @@
    limitations under the License.
 */
 
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
 namespace Google.DataTable.Net.Wrapper.Common
 {
     internal class Helper
@@ -32,6 +36,29 @@ namespace Google.DataTable.Net.Wrapper.Common
             }
 
             return string.Format("\"{0}\"", value);
-        }        
+        }
+
+        public static void JsonizeProperties(StreamWriter sw, IEnumerable<Property> properties)
+        {
+            if (properties.Any())
+            {
+                var propertiesCount = properties.Count();
+                var lastProperty = propertiesCount - 1;
+
+                sw.Write(", \"p\": {");
+                for (int p = 0; p < propertiesCount; p++)
+                {
+                    Property currentProperty = properties.ElementAt(p);
+
+                    sw.Write("\"" + currentProperty.Name + "\" : \"" + currentProperty.Value + "\"");
+
+                    if (p != lastProperty)
+                    {
+                        sw.Write(",");
+                    }
+                }
+                sw.Write("}");
+            }
+        }
     }
 }

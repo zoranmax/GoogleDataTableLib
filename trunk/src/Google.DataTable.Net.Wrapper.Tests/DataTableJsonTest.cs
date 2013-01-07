@@ -74,8 +74,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
             dt.AddColumn(col2);
 
             var row = dt.NewRow();
-            row.AddCell(new Cell() { Value = "Year" });
-            row.AddCell(new Cell() { Value = 10 });
+            row.AddCell(new Cell() {Value = "Year"});
+            row.AddCell(new Cell() {Value = 10});
 
             dt.AddRow(row);
             //Act -----------------
@@ -98,8 +98,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
             dt.AddColumn(col2);
 
             var row = dt.NewRow();
-            row.AddCell(new Cell() { Value = "Year" , Formatted="MyYears"});
-            row.AddCell(new Cell() { Value = 10 , Formatted="Ten"});
+            row.AddCell(new Cell() {Value = "Year", Formatted = "MyYears"});
+            row.AddCell(new Cell() {Value = 10, Formatted = "Ten"});
 
             dt.AddRow(row);
             //Act -----------------
@@ -124,8 +124,15 @@ namespace Google.DataTable.Net.Wrapper.Tests
             dt.AddColumn(col2);
 
             var row = dt.NewRow();
-            row.AddCell(new Cell() { Value = "Year", Formatted = "MyYears", Properties = "style: 'backgroundColor: red'" });
-            row.AddCell(new Cell() { Value = 10, Formatted = "Ten", Properties = "style: 'backgroundColor: red'" });
+
+            var cell1 = new Cell() {Value = "Year", Formatted = "MyYears"};
+            cell1.AddProperty(new Property("style", "backgroundColor: red"));
+
+            var cell2 = new Cell() {Value = 10, Formatted = "Ten"};
+            cell2.AddProperty(new Property("style", "backgroundColor: red"));
+
+            row.AddCell(cell1);
+            row.AddCell(cell2);
 
             dt.AddRow(row);
 
@@ -151,8 +158,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
             dt.AddColumn(col2);
 
             var row = dt.NewRow();
-            row.AddCell(new Cell() { Value = "Year", Formatted = "MyYears"});
-            row.AddCell(new Cell() { Value = DateTime.Now, Formatted = "Now"});
+            row.AddCell(new Cell() {Value = "Year", Formatted = "MyYears"});
+            row.AddCell(new Cell() {Value = DateTime.Now, Formatted = "Now"});
 
             dt.AddRow(row);
 
@@ -180,11 +187,11 @@ namespace Google.DataTable.Net.Wrapper.Tests
             for (int i = 0; i < 365; i++)
             {
                 var row = dt.NewRow();
-                row.AddCell(new Cell() { Value = DateTime.Now.AddDays(-i), Formatted = "Year" });
-                row.AddCell(new Cell() { Value = i });
+                row.AddCell(new Cell() {Value = DateTime.Now.AddDays(-i), Formatted = "Year"});
+                row.AddCell(new Cell() {Value = i});
                 dt.AddRow(row);
             }
-            
+
 
             //Act -----------------
             var json = dt.GetJson();
@@ -193,8 +200,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.IsTrue(json != null);
             Assert.IsTrue(IsValidJson(json));
         }
-
-        [Test]
+        
+        [Test(Description="Checks that the properties assigned to the Row can be properly serialized")]
         public void DataTable_CanSerializeRowPropertyMap()
         {
             //Arrange ------------
@@ -208,8 +215,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
             for (int i = 0; i < 1; i++)
             {
                 var row = dt.NewRow();
-                row.AddCell(new Cell() { Value = DateTime.Now.AddDays(-i), Formatted = "Year" });
-                row.AddCell(new Cell() { Value = i });
+                row.AddCell(new Cell() {Value = DateTime.Now.AddDays(-i), Formatted = "Year"});
+                row.AddCell(new Cell() {Value = i});
                 row.AddProperty(new Property("style", "border:1"));
                 row.AddProperty(new Property("fake", "fakeValue"));
                 dt.AddRow(row);
@@ -220,15 +227,57 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Assert --------------
             Assert.IsTrue(json != null);
+            Assert.That(json.Contains("\"p\": {\"style\" : \"border:1\",\"fake\" : \"fakeValue\"}"));
             Assert.IsTrue(IsValidJson(json));
         }
 
+        [Test]
+        public void DataTable_CanSerializeCellPropertyMap()
+        {
+            //Arrange ------------
+            DataTable dt = GetNewDataTableInstance();
+            var col = new Column(ColumnType.Date, "Year", "Year");
+            var col2 = new Column(ColumnType.Number, "End Of Day Rate", "End Of Day Rate");
+
+            dt.AddColumn(col);
+            dt.AddColumn(col2);
+
+            for (int i = 0; i < 1; i++)
+            {
+                var row = dt.NewRow();
+                var cell1 = new Cell() {Value = DateTime.Now.AddDays(-i), Formatted = "Year"};
+                var cell2 = new Cell() {Value = i};
+
+                cell1.AddProperty(new Property("style", "border:1"));
+                cell1.AddProperty(new Property("fake", "fakeValue"));
+
+                cell2.AddProperty(new Property("style", "border:1"));
+                cell2.AddProperty(new Property("fake", "fakeValue"));
+
+                row.AddCell(cell1);
+                row.AddCell(cell2);  
+              
+                dt.AddRow(row);
+            }
+
+            //Act -----------------
+            var json = dt.GetJson();
+
+            //Assert --------------
+            Assert.IsTrue(json != null);
+            Assert.That(json.Contains("\"p\": {\"style\" : \"border:1\",\"fake\" : \"fakeValue\"}"));
+            Assert.IsTrue(IsValidJson(json));
+        }
+
+        /// <summary>
+        /// Checks that the returned Json string can be deserialized into an object.
+        /// This can be used to check if the JSON is valid.
+        /// </summary>
+        /// <param name="jsonString"></param>
+        /// <returns></returns>
         private bool IsValidJson(string jsonString)
         {
-            var serializer = new JavaScriptSerializer();
-            var result = serializer.Deserialize<Dictionary<string, object>>(jsonString);
-
-            return result != null && result.Count > 0;
+            return JsonHelper.IsValidJson(jsonString);
         }
 
         /// <summary>

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.IO;
+using Google.DataTable.Net.Wrapper.Common;
 
 namespace Google.DataTable.Net.Wrapper
 {
@@ -197,26 +198,7 @@ namespace Google.DataTable.Net.Wrapper
 
                 sw.Write("]");
 
-                if (currentRow.PropertyMap.Any())
-                {
-                    var properties = currentRow.PropertyMap;
-                    var propertiesCount = properties.Count();
-                    var lastProperty = propertiesCount - 1;
-
-                    sw.Write(", \"p\": {");
-                    for (int p = 0; p < propertiesCount; p++)
-                    {
-                        Property currentProperty = properties.ElementAt(p);
-
-                        sw.Write("\"" + currentProperty.Name + "\" : \"" + currentProperty.Value + "\"");
-
-                        if (p != lastProperty)
-                        {
-                            sw.Write(",");
-                        }
-                    }
-                    sw.Write("}");
-                }
+                Helper.JsonizeProperties(sw, currentRow.PropertyMap);
 
                 sw.Write("}");
 
@@ -250,15 +232,12 @@ namespace Google.DataTable.Net.Wrapper
                 }
             }
 
-            var p = currentCell.Properties;
-            if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(p))
-            {
-                sw.Write(string.Format(", \"p\":{{{0}}} ", p));
-            }
-
+            Helper.JsonizeProperties(sw, currentCell.PropertyMap);
+            
             sw.Write("}");
             //Cells End
         }
+
 
         /// <summary>
         /// Serializes the Columns into the Json format

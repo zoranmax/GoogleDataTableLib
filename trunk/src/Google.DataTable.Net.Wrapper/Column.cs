@@ -16,6 +16,8 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using Google.DataTable.Net.Wrapper.Common;
@@ -24,14 +26,17 @@ using System.IO;
 namespace Google.DataTable.Net.Wrapper
 {
     [Serializable]
-    public class Column : ISerializable
+    public class Column : ISerializable, IPropertyMap
     {
+        private readonly List<Property> _propertyMap;
+
         public Column()
         {
             this.ColumnType = ColumnType.String;
+            this._propertyMap = new List<Property>();
         }
 
-        public Column(ColumnType columnType)
+        public Column(ColumnType columnType): this()
         {
             ColumnType = columnType;
         }
@@ -48,11 +53,10 @@ namespace Google.DataTable.Net.Wrapper
             Label = label;
         }
 
-        public Column(ColumnType columnType, string id, string label, string pattern, string p)
+        public Column(ColumnType columnType, string id, string label, string pattern)
             : this(columnType, id, label)
         {
             Pattern = pattern;
-            Properties = p;
         }
 
         /// <summary>
@@ -105,26 +109,15 @@ namespace Google.DataTable.Net.Wrapper
         public string Pattern { get; set; }
 
         /// <summary>
-        /// p [Optional] An object that is a map of custom values applied to the cell. 
-        /// These values can be of any JavaScript ColumnType. 
-        /// If your visualization supports any cell-level properties, 
-        /// it will describe them; otherwise, this property will be ignored. 
-        /// <example>
-        /// Example: p:{style: 'border: 1px solid green;'}.
-        /// </example>
-        /// </summary>
-        public string Properties { get; set; }
-
-        /// <summary>
         /// Returns the Json string as expected by the Google Api
         /// </summary>
         /// <returns></returns>
         internal void GetJson(StreamWriter sw)
         {
             sw.Write("{");
-            
+
             sw.AppendIfNotNullOrEmpty("type", this.ColumnType.ToString().ToLower());
-            
+
             if (this.Id != null)
             {
                 sw.Write(",");
@@ -143,35 +136,13 @@ namespace Google.DataTable.Net.Wrapper
                 sw.AppendIfNotNullOrEmpty("pattern", this.Pattern);
             }
 
-            if (this.Properties != null || this.Role!=null)
-            {
-                sw.Write(", \"p\": {");
+            List<Property> propertyList = this.PropertyMap.ToList();
+            propertyList.Add(new Property("role", this.Role));
 
-                string content = string.Empty;
-
-                if (!string.IsNullOrEmpty(this.Role))
-                {
-                    content = " \"role\": " + "\"" + this.Role + "\"";
-                }
-
-                if (!string.IsNullOrEmpty(this.Properties))
-                {
-                    if (!string.IsNullOrEmpty(content))
-                    {
-                        content += ", " + this.Properties;
-                    }
-                    else
-                    {
-                        content = this.Properties;
-                    }
-                }
-
-                sw.Write(content);
-
-                sw.Write("}");
-            }
+            Helper.JsonizeProperties(sw, propertyList);
+           
             sw.Write("}");
-        }      
+        }
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -180,7 +151,7 @@ namespace Google.DataTable.Net.Wrapper
             info.AddValue("id", this.Id);
             info.AddValue("label", this.Label);
             info.AddValue("pattern", this.Pattern);
-            info.AddValue("p", this.Properties);
+            info.AddValue("p", this.PropertyMap);
             info.AddValue("role", this.Role);
         }
 
@@ -190,8 +161,54 @@ namespace Google.DataTable.Net.Wrapper
             Id = (string) info.GetValue("id", typeof (string));
             Label = (string) info.GetValue("label", typeof (string));
             Pattern = (string) info.GetValue("pattern", typeof (string));
-            Properties = (string) info.GetValue("p", typeof (string));
-            Role = (string)info.GetValue("role", typeof(string));
+            _propertyMap = (List<Property>)info.GetValue("p", typeof(List<Property>));
+            Role = (string) info.GetValue("role", typeof (string));
+        }
+
+        /// <summary>
+        /// p [Optional] An object that is a map of custom values applied to the cell. 
+        /// These values can be of any JavaScript ColumnType. 
+        /// If your visualization supports any cell-level properties, 
+        /// it will describe them; otherwise, this property will be ignored. 
+        /// <example>
+        /// Example: p:{style: 'border: 1px solid green;'}.
+        /// </example>
+        /// </summary>
+        /// <remarks>
+        /// Returns a list of currently assigned properties to the Cell
+        /// </remarks>
+        public IEnumerable<Property> PropertyMap
+        {
+            get { return _propertyMap; }
+        }
+
+        /// <summary>
+        /// Adds a new property to the list of properties.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public Property AddProperty(Property p)
+        {
+            _propertyMap.Add(p);
+            return p;
+        }
+
+        /// <summary>
+        /// Removes a property from the Property Map
+        /// </summary>
+        /// <param name="p"></param>
+        public void RemoveProperty(Property p)
+        {
+            _propertyMap.Remove(p);
+        }
+
+        /// <summary>
+        /// Removes a property from the Property Map by an index.
+        /// </summary>
+        /// <param name="index"></param>
+        public void RemoveProperty(int index)
+        {
+            _propertyMap.RemoveAt(index);
         }
     }
 }

@@ -15,6 +15,7 @@
    limitations under the License.
 */
 
+using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 
@@ -58,7 +59,16 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Assert -------------------
             Assert.That(columnJson != null);
-            Assert.That(columnJson == "{\"type\": \"string\" , \"p\": { \"role\": \"annotation\"}}");
+
+            //check the values
+            var dictionary = JsonHelper.GetDictionary(columnJson);
+            var pDictionary = (Dictionary<string,object>)dictionary["p"];
+            Assert.That(pDictionary != null);
+            Assert.That(pDictionary["role"] != null);
+
+            object roleValue;
+            pDictionary.TryGetValue("role", out roleValue);
+            Assert.That(((string) roleValue) == ColumnRole.Annotation);            
         }
 
         [Test(Description = "If the property and role are specified, this tests that the output in json gets generated properly")]
@@ -69,7 +79,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             var column = new Column(ColumnType.String);
             column.Role = ColumnRole.Annotation;
-            column.Properties = "\"property1\": \"value\"";
+            column.AddProperty(new Property("property1", "value"));
 
             //Act ----------------------
             using (var ms = new MemoryStream())
@@ -88,7 +98,19 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Assert -------------------
             Assert.That(columnJson != null);
-            Assert.That(columnJson == "{\"type\": \"string\" , \"p\": { \"role\": \"annotation\", \"property1\": \"value\"}}");
+
+            var dictionary = JsonHelper.GetDictionary(columnJson);
+            var pDictionary = (Dictionary<string, object>)dictionary["p"];
+            object roleValue;
+            object propValue;
+
+            Assert.That(pDictionary != null);
+            Assert.That(pDictionary["role"] != null);
+            pDictionary.TryGetValue("role", out roleValue);
+            Assert.That(((string)roleValue) == ColumnRole.Annotation);
+
+            pDictionary.TryGetValue("property1", out propValue);
+            Assert.That(((string)propValue) == "value");
         }
     }
 }

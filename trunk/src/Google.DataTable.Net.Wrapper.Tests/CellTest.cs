@@ -15,6 +15,7 @@
    limitations under the License.
 */
 
+using System.Linq;
 using NUnit.Framework;
 
 namespace Google.DataTable.Net.Wrapper.Tests
@@ -32,7 +33,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Assert --------------
             Assert.That(c!=null);
-            Assert.That(c.Properties == null);
+            Assert.That(c.PropertyMap.Any() == false);
             Assert.That(c.Value == null);
             Assert.That(c.Formatted == null);
             Assert.That(c.ColumnType == ColumnType.String);

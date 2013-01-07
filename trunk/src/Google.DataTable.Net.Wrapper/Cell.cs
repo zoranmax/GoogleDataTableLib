@@ -16,6 +16,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -38,14 +39,16 @@ namespace Google.DataTable.Net.Wrapper
     /// </example>
     /// </summary>
     [Serializable]
-    public class Cell: ISerializable
+    public class Cell: ISerializable, IPropertyMap
     {
+        private List<Property> _propertyMap;
+
         /// <summary>
         /// Default constructor
         /// </summary>
         public Cell()
         {
-            
+            _propertyMap = new List<Property>();
         }
 
         /// <summary>
@@ -87,12 +90,41 @@ namespace Google.DataTable.Net.Wrapper
         public string Formatted { get; set; }
 
         /// <summary>
-        /// p [Optional] An object that is a map of custom values applied to the cell. 
-        /// These values can be of any JavaScript ColumnType. If your visualization supports 
-        /// any cell-level properties, it will describe them; otherwise, this property will be ignored. 
-        /// <example>Example: p:{style: 'border: 1px solid green;'}.</example>
+        /// Returns a list of currently assigned properties to the Cell
         /// </summary>
-        public string Properties { get; set; }       
+        public IEnumerable<Property> PropertyMap
+        {
+            get { return _propertyMap; }
+        }
+
+        /// <summary>
+        /// Adds a new property to the list of properties.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public Property AddProperty(Property p)
+        {
+            _propertyMap.Add(p);
+            return p;
+        }
+
+        /// <summary>
+        /// Removes a property from the Property Map
+        /// </summary>
+        /// <param name="p"></param>
+        public void RemoveProperty(Property p)
+        {
+            _propertyMap.Remove(p);
+        }
+
+        /// <summary>
+        /// Removes a property from the Property Map by an index.
+        /// </summary>
+        /// <param name="index"></param>
+        public void RemoveProperty(int index)
+        {
+            _propertyMap.RemoveAt(index);
+        } 
 
         /// <summary>
         /// Returns the value formated depending on the object type.
@@ -160,7 +192,7 @@ namespace Google.DataTable.Net.Wrapper
             info.AddValue("columnType", this.ColumnType.ToString().ToLower());
             info.AddValue("v", this.Value);
             info.AddValue("f", this.Formatted);
-            info.AddValue("p", this.Properties);
+            info.AddValue("p", this._propertyMap);
         }
 
         protected Cell (SerializationInfo info, StreamingContext context)
@@ -168,7 +200,7 @@ namespace Google.DataTable.Net.Wrapper
             ColumnType = (ColumnType) info.GetValue("columnType", typeof (ColumnType));
             Value = info.GetValue("v", typeof (object));
             Formatted = (string)info.GetValue("f", typeof (string));
-            Properties = (string) info.GetValue("p", typeof (string));           
+            _propertyMap = (List<Property>)info.GetValue("p", typeof(List<Property>));           
         }
     }
 }
