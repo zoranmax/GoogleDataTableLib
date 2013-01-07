@@ -49,6 +49,7 @@
     <Compile Include="DataTable.cs" />
     <Compile Include="ColumnType.cs" />
     <Compile Include="Common\Helper.cs" />
+    <Compile Include="IPropertyMap.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Row.cs" />

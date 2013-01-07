@@ -51,6 +51,7 @@
     <Compile Include="ColumnTest.cs" />
     <Compile Include="CellTest.cs" />
     <Compile Include="DataTableJsonTest.cs" />
+    <Compile Include="JsonHelper.cs" />
     <Compile Include="PropertyTest.cs" />
     <Compile Include="RowTest.cs" />
     <Compile Include="DataTableTest.cs" />

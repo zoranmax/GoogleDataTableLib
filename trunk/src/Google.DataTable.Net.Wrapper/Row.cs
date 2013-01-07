@@ -28,7 +28,7 @@ namespace Google.DataTable.Net.Wrapper
     ///plus an optional map of arbitrary name/value pairs that you can assign.    
     /// </summary>
     [Serializable]
-    public class Row: ISerializable
+    public class Row: ISerializable, IPropertyMap
     {
         private readonly List<Cell> _cellList;
         private readonly List<Property> _propertyMap;
