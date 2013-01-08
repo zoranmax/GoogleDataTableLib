@@ -178,7 +178,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             Assert.That(value == "Year");
             Assert.That(formatted == "MyYears");
-            Assert.That(valueCell2 == "new Date(2013, 0, 1)");
+            Assert.That(valueCell2 == "Date(2013, 0, 1)");
             Assert.That(formattedCell2 == "Now");
         }       
         
