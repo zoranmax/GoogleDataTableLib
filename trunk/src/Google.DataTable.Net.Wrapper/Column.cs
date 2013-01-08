@@ -137,7 +137,10 @@ namespace Google.DataTable.Net.Wrapper
             }
 
             List<Property> propertyList = this.PropertyMap.ToList();
-            propertyList.Add(new Property("role", this.Role));
+            if (!string.IsNullOrEmpty(this.Role))
+            {
+                propertyList.Add(new Property("role", this.Role));
+            }
 
             Helper.JsonizeProperties(sw, propertyList);
            
