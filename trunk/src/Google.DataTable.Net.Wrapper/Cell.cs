@@ -41,7 +41,7 @@ namespace Google.DataTable.Net.Wrapper
     [Serializable]
     public class Cell: ISerializable, IPropertyMap
     {
-        private List<Property> _propertyMap;
+        private readonly List<Property> _propertyMap;
 
         /// <summary>
         /// Default constructor
@@ -55,7 +55,7 @@ namespace Google.DataTable.Net.Wrapper
         /// Constructor that accepts a value
         /// </summary>
         /// <param name="value"></param>
-        public Cell(object value)
+        public Cell(object value): this()
         {
             Value = value;
         }
@@ -168,11 +168,11 @@ namespace Google.DataTable.Net.Wrapper
                     break;
                 case ColumnType.Date:
                     var d = (DateTime) value;
-                    returnValue = string.Format("\"new Date({0}, {1}, {2})\"", d.Year, d.Month - 1, d.Day);
+                    returnValue = string.Format("\"Date({0}, {1}, {2})\"", d.Year, d.Month - 1, d.Day);
                     break;
                 case ColumnType.Datetime:
                     var dt = (DateTime) value;
-                    returnValue = string.Format("\"new Date({0}, {1}, {2}, {3}, {4}, {5})\"", dt.Year, dt.Month - 1, dt.Day,
+                    returnValue = string.Format("\"Date({0}, {1}, {2}, {3}, {4}, {5})\"", dt.Year, dt.Month - 1, dt.Day,
                                                 dt.Hour, dt.Minute, dt.Second);
                     break;
                 case ColumnType.Timeofday:

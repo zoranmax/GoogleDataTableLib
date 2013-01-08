@@ -40,7 +40,7 @@ namespace Google.DataTable.Net.Wrapper.Common
 
         public static void JsonizeProperties(StreamWriter sw, IEnumerable<Property> properties)
         {
-            if (properties.Any())
+            if (properties != null && properties.Any())
             {
                 var propertiesCount = properties.Count();
                 var lastProperty = propertiesCount - 1;
