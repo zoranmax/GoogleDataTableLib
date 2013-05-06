@@ -30,10 +30,10 @@ namespace Google.DataTable.Net.Wrapper.Tests
             return result;
         }
 
-        public static dynamic GetDynamicFromJson(string jsonString)
+        public static dynamic GetDynamicFromJson(string json)
         {
             var serializer = new JavaScriptSerializer();
-            dynamic result = serializer.DeserializeObject(jsonString);
+            dynamic result = serializer.DeserializeObject(json);
             return result;
         }
     }

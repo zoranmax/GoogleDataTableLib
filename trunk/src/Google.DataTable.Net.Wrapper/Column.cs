@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -116,7 +117,7 @@ namespace Google.DataTable.Net.Wrapper
         {
             sw.Write("{");
 
-            sw.AppendIfNotNullOrEmpty("type", this.ColumnType.ToString().ToLower());
+            sw.AppendIfNotNullOrEmpty("type", this.ColumnType.ToString().ToLower(CultureInfo.InvariantCulture));
 
             if (this.Id != null)
             {
@@ -150,7 +151,7 @@ namespace Google.DataTable.Net.Wrapper
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("columnType", this.ColumnType.ToString().ToLower());
+            info.AddValue("columnType", this.ColumnType.ToString().ToLower(CultureInfo.InvariantCulture));
             info.AddValue("id", this.Id);
             info.AddValue("label", this.Label);
             info.AddValue("pattern", this.Pattern);

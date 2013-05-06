@@ -54,7 +54,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test]
-        public void Row_CanAddARangeOfCells()
+        public void CanAddARangeOfCells()
         {
             //Arrange ------------
             Row r = new Row();
@@ -70,7 +70,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test(Description = "Checks that is possible to add a Property and retrieve it's value")]
-        public void Row_CanAddAndRetrieveAProperty()
+        public void CanAddAndRetrieveAProperty()
         {
             //Arrange ------------
             var row = new Row();
@@ -88,7 +88,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test(Description = "Checks that is possible to add a Property and retrieve it's value")]
-        public void Row_CanRemovePropertyFromThePropertyMap()
+        public void CanRemovePropertyFromThePropertyMap()
         {
             //Arrange ------------
             var row = new Row();
@@ -104,7 +104,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test(Description = "Checks that is possible to add a Property and retrieve it's value")]
-        public void Row_CanRemovePropertyByIndexFromThePropertyMap()
+        public void CanRemovePropertyByIndexFromThePropertyMap()
         {
             //Arrange ------------
             var row = new Row();
@@ -112,7 +112,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             const string propertyValue = "border: 7px solid orange";
 
             //Act -----------------
-            var property = row.AddProperty(new Property(propertyName, propertyValue));
+            row.AddProperty(new Property(propertyName, propertyValue));
             row.RemoveProperty(0);
 
             //Assert --------------
@@ -121,7 +121,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
         [Test]
         [ExpectedException(typeof (System.ArgumentOutOfRangeException))]
-        public void Row_AddARangeOfCellsThatHaveMoreItemsThanColumnsRaisesException()
+        public void AddARangeOfCellsThatHaveMoreItemsThanColumnsRaisesException()
         {
             //Arrange ------------
             Row r = new Row();

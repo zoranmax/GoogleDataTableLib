@@ -11,14 +11,14 @@ namespace Google.DataTable.Net.Wrapper.Tests
     public class PropertyTest
     {
         [Test]
-        public void Property_CanCreateAnInstanceByDefaultConstructor()
+        public void CanCreateAnInstanceByDefaultConstructor()
         {
             var property = new Property();
             Assert.That(property != null);
         }
 
         [Test]
-        public void Property_CanCreateAnInstanceByConstructorThatTakesNameAndValue()
+        public void CanCreateAnInstanceByConstructorThatTakesNameAndValue()
         {
             var property = new Property("name", "value");
 

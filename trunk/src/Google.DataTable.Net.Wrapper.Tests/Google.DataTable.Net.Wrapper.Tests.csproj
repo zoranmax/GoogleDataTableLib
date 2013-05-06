@@ -20,7 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,6 +51,8 @@
   <ItemGroup>
     <Compile Include="ColumnTest.cs" />
     <Compile Include="CellTest.cs" />
+    <Compile Include="Extension\EnumerableExtensionTest.cs" />
+    <Compile Include="Extension\SystemDataTableExtensionTest.cs" />
     <Compile Include="DataTableJsonTest.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="PropertyTest.cs" />
