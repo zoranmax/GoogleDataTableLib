@@ -26,7 +26,7 @@ namespace Google.DataTable.Net.Wrapper
     /// <summary>
     /// Responsible for converting the System.Data.DataTable into
     /// Google.DataTable.Net.Wrapper.DataTable.
-    /// </summary>
+    /// </summary>    
     public class SystemDataTableConverter
     {
         /// <summary>

@@ -24,7 +24,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
     public class CellTest
     {
         [Test]
-        public void Cell_CheckDefaultValuesUpponInstantiation()
+        public void CheckDefaultValuesUponInstantiation()
         {
             //Arrange ------------            
             var c = new Cell();
@@ -40,7 +40,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test]
-        public void Cell_CanAddProperty()
+        public void CanAddProperty()
         {
             //Arrange ------------            
             var c = new Cell();
@@ -56,13 +56,13 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test]
-        public void Cell_CanRemoveProperty()
+        public void CanRemoveProperty()
         {
             //Arrange ------------            
             var c = new Cell();
 
             var property1 = c.AddProperty(new Property("style", "border:1"));
-            var property2 = c.AddProperty(new Property("style2", "border:2"));
+            c.AddProperty(new Property("style2", "border:2"));
 
             //Act -----------------
             c.RemoveProperty(property1);
@@ -74,13 +74,13 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test]
-        public void Cell_CanRemovePropertyByIndex()
+        public void CanRemovePropertyByIndex()
         {
             //Arrange ------------            
             var c = new Cell();
 
-            var property1 = c.AddProperty(new Property("style", "border:1"));
-            var property2 = c.AddProperty(new Property("style2", "border:2"));
+            c.AddProperty(new Property("style", "border:1"));
+            c.AddProperty(new Property("style2", "border:2"));
 
             //Act -----------------
             c.RemoveProperty(0);

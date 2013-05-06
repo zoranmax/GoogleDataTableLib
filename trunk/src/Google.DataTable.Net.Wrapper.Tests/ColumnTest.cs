@@ -25,14 +25,14 @@ namespace Google.DataTable.Net.Wrapper.Tests
     public class ColumnTest
     {
         [Test(Description = "Checks that the column object can be created with the default constructor")]
-        public void Column_CanInstantiateColumn()
+        public void CanInstantiateColumn()
         {
             var c = new Column(ColumnType.String);
             Assert.That(c != null);
         }
 
         [Test(Description = "Checks that the Role field get's retruend in the json string")]
-        public void Column_Role_GetsProperlySerialized()
+        public void RoleGetsProperlySerialized()
         {
             //Arrange ------------------
             string columnJson;
