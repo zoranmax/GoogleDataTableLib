@@ -81,7 +81,8 @@ namespace Google.DataTable.Net.Wrapper
         /// </summary>
         public object Value { get; set; }
 
-        ///<summary> [Optional] A string version of the v value, formatted for display. 
+        ///<summary>
+        ///[Optional] A string version of the v value, formatted for display. 
         /// The values should match, so if you specify Date(2008, 0, 1) for v, 
         /// you should specify "January 1, 2008" or some such string for this property. 
         /// This value is not checked against the v value. The visualization will not use this value 
@@ -189,7 +190,7 @@ namespace Google.DataTable.Net.Wrapper
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("columnType", this.ColumnType.ToString().ToLower());
+            info.AddValue("type", this.ColumnType.ToString().ToLower());
             info.AddValue("v", this.Value);
             info.AddValue("f", this.Formatted);
             info.AddValue("p", this._propertyMap);
@@ -197,7 +198,7 @@ namespace Google.DataTable.Net.Wrapper
 
         protected Cell (SerializationInfo info, StreamingContext context)
         {
-            ColumnType = (ColumnType) info.GetValue("columnType", typeof (ColumnType));
+            ColumnType = (ColumnType)info.GetValue("type", typeof(ColumnType));
             Value = info.GetValue("v", typeof (object));
             Formatted = (string)info.GetValue("f", typeof (string));
             _propertyMap = (List<Property>)info.GetValue("p", typeof(List<Property>));           
