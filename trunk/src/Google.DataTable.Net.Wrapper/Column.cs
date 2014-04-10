@@ -151,7 +151,7 @@ namespace Google.DataTable.Net.Wrapper
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("columnType", this.ColumnType.ToString().ToLower(CultureInfo.InvariantCulture));
+            info.AddValue("type", this.ColumnType.ToString().ToLower(CultureInfo.InvariantCulture));
             info.AddValue("id", this.Id);
             info.AddValue("label", this.Label);
             info.AddValue("pattern", this.Pattern);
@@ -161,7 +161,7 @@ namespace Google.DataTable.Net.Wrapper
 
         protected Column(SerializationInfo info, StreamingContext context)
         {
-            ColumnType = (ColumnType) info.GetValue("columnType", typeof (ColumnType));
+            ColumnType = (ColumnType)info.GetValue("type", typeof(ColumnType));
             Id = (string) info.GetValue("id", typeof (string));
             Label = (string) info.GetValue("label", typeof (string));
             Pattern = (string) info.GetValue("pattern", typeof (string));
