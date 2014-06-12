@@ -1,0 +1,88 @@
+﻿
+<h1>Example 1</h1>
+<p>This is a simple chart displaying data returned by the server using the AJAX call</p>
+
+<!--1. Load the jQUery library-->
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+<!--2. Load the Google charts-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+<!--3. Declare the div-->
+<div id="chart_div"></div>
+
+<!--4. AJAX javascript -->
+<script type="text/javascript">
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1', { 'packages': ['corechart'] });
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var jsonData = $.ajax({
+            url: "/Home/Example1Data",
+            dataType: "json",
+            async: false
+        }).responseText;
+
+        // Create our data table out of JSON data loaded from server.
+        var data = new google.visualization.DataTable(jsonData);
+
+        var options = {
+            title: 'Company Performance',
+            hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
+            vAxis: { minValue: 0 },
+            width: 600
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
+
+<h2>Page Source</h2>
+<xmp>
+    <!--1. Load the jQUery library-->
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+    <!--2. Load the Google charts-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+    <!--3. Declare the div-->
+    <div id="chart_div"></div>
+
+    <!--4. AJAX javascript -->
+    <script type="text/javascript">
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var jsonData = $.ajax({
+                url: "/Home/Example1Data",
+                dataType: "json",
+                async: false
+            }).responseText;
+
+            // Create our data table out of JSON data loaded from server.
+            var data = new google.visualization.DataTable(jsonData);
+
+            var options = {
+                title: 'Company Performance',
+                hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
+                vAxis: { minValue: 0 },
+                width: 600
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+</xmp>
