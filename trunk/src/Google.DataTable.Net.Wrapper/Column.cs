@@ -46,6 +46,7 @@ namespace Google.DataTable.Net.Wrapper
             : this(columnType)
         {
             Id = id;
+            Label = id;
         }
 
         public Column(ColumnType columnType, string id, string label)
