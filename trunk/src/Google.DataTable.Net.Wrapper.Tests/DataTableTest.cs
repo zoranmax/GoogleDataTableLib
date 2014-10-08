@@ -87,6 +87,29 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test]
+        public void CreateDateTimeObjects()
+        {
+            //Arrange ------------
+            DataTable dt = GetNewDataTableInstance();
+            Column dateTimeColumn = new Column(ColumnType.Datetime, "DateTimeColumn");
+            Column dateColumn = new Column(ColumnType.Date, "DateColumn");
+
+            dt.AddColumn(dateTimeColumn);
+            dt.AddColumn(dateColumn);
+
+            Row r = dt.NewRow();
+            r.AddCell(new Cell(DateTime.Now)); // DateTime column value
+            r.AddCell(new Cell(DateTime.Now)); // Date columnvalue 
+            dt.AddRow(r);
+
+            //Act -----------------
+            var json = dt.GetJson();
+
+            //Assert --------------
+            Assert.IsTrue(json != null);
+        }
+
+        [Test]
         [ExpectedException(typeof(Exception))]
         public void ColumnsWithTheSameIdAreNotAccepted()
         {
