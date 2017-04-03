@@ -9,7 +9,7 @@ It is perfect for server side applications hosted on ASP.NET or ASP.NET MVC or a
 It is based and compiled on v .NET 3.5 in order to give pretty much a good compatibility with older kind of projects still running on this frameworks.
 
 For further information, please check:
-* [Documentation](http://googledatatablelib.codeplex.com/documentation) or visit the blog posts:
+* [Documentation](https://github.com/zoranmax/GoogleDataTableLib/wiki) or visit the blog posts:
 * [Using the Google DataTable .Net Wrapper](http://www.agile-code.com/blog/using-the-google-datatable-net-wrapper)
 * [Improving the Google DataTable .Net Wrapper](http://www.agile-code.com/blog/improving-the-google-datatable-net-wrapper/)
 
