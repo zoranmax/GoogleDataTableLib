@@ -1,0 +1,17 @@
+﻿@using System.Web.UI.WebControls
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+    <body>
+        @Ajax.ActionLink("Example1", "Example1", "Home", null)
+        @Ajax.ActionLink("Example2", "Example2", "Home", null)
+
+        @RenderBody()      
+    </body>
+</html>
