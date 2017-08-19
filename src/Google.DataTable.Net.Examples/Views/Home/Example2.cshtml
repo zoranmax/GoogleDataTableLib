@@ -2,23 +2,19 @@
 <h1>Example 2</h1>
 <p>This is a chart displaying data embedded in the javascript (server side). Check the Html.Raw(ViewBag.JSON)</p>
 
-<!--1. Load the jQUery library-->
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<!--1. Load the Google charts-->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<!--2. Load the Google charts-->
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
-
-<!--3. Declare the div-->
+<!--2. Declare the div-->
 <div id="chart_div" style="width: 900px; height: 500px;"></div>
 
-<!--4. AJAX javascript -->
+<!--3. Chart displaying -->
 <script type="text/javascript">
     // Load the Visualization API and the piechart package.
-    google.load('visualization', '1', { 'packages': ['corechart'] });
+    google.charts.load('visualization', '1', { 'packages': ['corechart'] });
 
     // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
         var jsonData = '@Html.Raw(ViewBag.JSON)';
@@ -39,38 +35,73 @@
 
 <h2>Page Source</h2>
 <xmp>
-    <!--1. Load the jQUery library-->
-    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <!--1. Load the Google charts-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <!--2. Load the Google charts-->
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
-
-    <!--3. Declare the div-->
+    <!--2. Declare the div-->
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
 
-    <!--4. AJAX javascript -->
+    <!--3. Chart displaying -->
     <script type="text/javascript">
-        // Load the Visualization API and the piechart package.
-        google.load('visualization', '1', { 'packages': ['corechart'] });
+    // Load the Visualization API and the piechart package.
+    google.charts.load('visualization', '1', { 'packages': ['corechart'] });
 
-        // Set a callback to run when the Google Visualization API is loaded.
-        google.setOnLoadCallback(drawChart);
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
-            var jsonData = '@Html.Raw(ViewBag.JSON)';
+    function drawChart() {
+        var jsonData = '@Html.Raw(ViewBag.JSON)';
 
-            // Create our data table out of JSON data loaded from server.
-            var data = new google.visualization.DataTable(jsonData);
+        // Create our data table out of JSON data loaded from server.
+        var data = new google.visualization.DataTable(jsonData);
 
-            var options = {
-                title: 'Company Performance',
-                hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
-                vAxis: { minValue: 0 }
-            };
-            // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-        }
+        var options = {
+            title: 'Company Performance',
+            hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
+            vAxis: { minValue: 0 }
+        };
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
     </script>
 </xmp>
+<br />
+and the ViewBag.JSON function is as follows
+<br />
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">string</span> Example2Data()
+{
+    <span class="kwrd">var</span> dt = <span class="kwrd">new</span> Wrapper.DataTable();
+
+    <span class="rem">//Act -----------------</span>
+    dt.AddColumn(<span class="kwrd">new</span> Column(ColumnType.String, <span class="str">"Year"</span>));
+    dt.AddColumn(<span class="kwrd">new</span> Column(ColumnType.Number, <span class="str">"Sales"</span>, <span class="str">"Sales - Legend"</span>));
+    dt.AddColumn(<span class="kwrd">new</span> Column(ColumnType.Number, <span class="str">"Expenses"</span>));
+
+    <span class="kwrd">var</span> row1 = dt.NewRow();
+    <span class="kwrd">var</span> row2 = dt.NewRow();
+    <span class="kwrd">var</span> row3 = dt.NewRow();
+    <span class="kwrd">var</span> row4 = dt.NewRow();
+    <span class="kwrd">var</span> row5 = dt.NewRow();
+    <span class="kwrd">var</span> row6 = dt.NewRow();
+
+    row1.AddCellRange(<span class="kwrd">new</span>[] {<span class="kwrd">new</span> Cell(<span class="str">"2009"</span>), <span class="kwrd">new</span> Cell(10), <span class="kwrd">new</span> Cell(20)});
+    row2.AddCellRange(<span class="kwrd">new</span>[] {<span class="kwrd">new</span> Cell(<span class="str">"2010"</span>), <span class="kwrd">new</span> Cell(10), <span class="kwrd">new</span> Cell(50)});
+    row3.AddCellRange(<span class="kwrd">new</span>[] {<span class="kwrd">new</span> Cell(<span class="str">"2011"</span>), <span class="kwrd">new</span> Cell(20), <span class="kwrd">new</span> Cell(10)});
+    row4.AddCellRange(<span class="kwrd">new</span>[] {<span class="kwrd">new</span> Cell(<span class="str">"2012"</span>), <span class="kwrd">new</span> Cell(11), <span class="kwrd">new</span> Cell(20)});
+    row5.AddCellRange(<span class="kwrd">new</span>[] {<span class="kwrd">new</span> Cell(<span class="str">"2013"</span>), <span class="kwrd">new</span> Cell(18), <span class="kwrd">new</span> Cell(18)});
+    row6.AddCellRange(<span class="kwrd">new</span>[] {<span class="kwrd">new</span> Cell(<span class="str">"2014"</span>), <span class="kwrd">new</span> Cell(30), <span class="kwrd">new</span> Cell(19)});
+
+
+    dt.AddRow(row1);
+    dt.AddRow(row2);
+    dt.AddRow(row3);
+    dt.AddRow(row4);
+    dt.AddRow(row5);
+    dt.AddRow(row6);
+
+    <span class="kwrd">return</span> dt.GetJson();
+    }
+}</pre>

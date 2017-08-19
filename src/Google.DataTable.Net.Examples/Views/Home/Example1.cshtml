@@ -2,23 +2,23 @@
 <h1>Example 1</h1>
 <p>This is a simple chart displaying data returned by the server using the AJAX call</p>
 
-<!--1. Load the jQUery library-->
+
+<!--1. Load the jQUery library: used for issuing an ajax call to get JSON data from the restful service-->
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
 <!--2. Load the Google charts-->
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <!--3. Declare the div-->
-<div id="chart_div"></div>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
 
-<!--4. AJAX javascript -->
+<!--4. Chart displaying -->
 <script type="text/javascript">
     // Load the Visualization API and the piechart package.
-    google.load('visualization', '1', { 'packages': ['corechart'] });
+    google.charts.load('visualization', '1', { 'packages': ['corechart'] });
 
     // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
         var jsonData = $.ajax({
@@ -45,23 +45,22 @@
 
 <h2>Page Source</h2>
 <xmp>
-    <!--1. Load the jQUery library-->
+    <!--1. Load the jQUery library: used for issuing an ajax call to get JSON data from the restful service-->
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
     <!--2. Load the Google charts-->
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <!--3. Declare the div-->
-    <div id="chart_div"></div>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
 
-    <!--4. AJAX javascript -->
+    <!--4. Chart displaying -->
     <script type="text/javascript">
         // Load the Visualization API and the piechart package.
-        google.load('visualization', '1', { 'packages': ['corechart'] });
+        google.charts.load('visualization', '1', { 'packages': ['corechart'] });
 
         // Set a callback to run when the Google Visualization API is loaded.
-        google.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
             var jsonData = $.ajax({
@@ -84,5 +83,37 @@
             var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
             chart.draw(data, options);
         }
-    </script>
-</xmp>
+    </script>   
+</xmp >
+
+
+<br />
+and the following is the source of data:
+
+<br />
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">string</span> Example1Data()
+{
+    <span class="kwrd">var</span> dt = <span class="kwrd">new</span> Wrapper.DataTable();
+
+    dt.AddColumn(<span class="kwrd">new</span> Column(ColumnType.String, <span class="str">"Tiers"</span>));
+    dt.AddColumn(<span class="kwrd">new</span> Column(ColumnType.Number, <span class="str">"Apps"</span>));
+
+    <span class="kwrd">var</span> row1 = dt.NewRow();
+    <span class="kwrd">var</span> row2 = dt.NewRow();
+    <span class="kwrd">var</span> row3 = dt.NewRow();
+
+
+    row1.AddCellRange(<span class="kwrd">new</span>[] {<span class="kwrd">new</span> Cell(<span class="str">"Tier 1"</span>), <span class="kwrd">new</span> Cell(20)});
+    row2.AddCellRange(<span class="kwrd">new</span>[] {<span class="kwrd">new</span> Cell(<span class="str">"Tier 1.5"</span>), <span class="kwrd">new</span> Cell(13)});
+    row3.AddCellRange(<span class="kwrd">new</span>[] {<span class="kwrd">new</span> Cell(<span class="str">"Tier 2"</span>), <span class="kwrd">new</span> Cell(34)});
+
+
+    dt.AddRow(row1);
+    dt.AddRow(row2);
+    dt.AddRow(row3);
+
+    <span class="kwrd">return</span> dt.GetJson();
+}</pre>
