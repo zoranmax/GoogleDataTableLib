@@ -152,7 +152,6 @@ namespace Google.DataTable.Net.Wrapper
                 {
                     rowsJson = sr.ReadToEnd();
                 }
-                ;
             }
 
             return "{" + rowsJson + "}";

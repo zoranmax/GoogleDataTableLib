@@ -9,12 +9,11 @@ namespace Google.DataTable.Net.Wrapper.Extension
     public static class EnumerableExtension
     {
         /// <summary>
-        /// Entry point extension method for IEnumerable<T> types.
+        /// Entry point extension method for IEnumerable types.
         /// Returns a new DataTableConfig.
-        /// </summary>        
-        /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
+        /// </summary>    
         public static DataTableConfig<T> ToGoogleDataTable<T>(this IEnumerable<T> source) where T : class
         {
             return new DataTableConfig<T>(source);
@@ -41,17 +40,5 @@ namespace Google.DataTable.Net.Wrapper.Extension
             }
             return source;
         }
-
-        ///// <summary>
-        ///// Implementation specific extension. 
-        ///// </summary>
-        //public static DataTableConfig<T> Tooltip<T>(this DataTableConfig<T> source, Func<T, string> rowValue)
-        //{
-        //    var col = new Column(ColumnType.String);
-        //    col.Role = "tooltip";
-        //    col.AddProperty(new Property("html", "true"));
-        //    source.AddColumn(col, r => new Cell(rowValue(r)));
-        //    return source;
-        //}
     }
 }

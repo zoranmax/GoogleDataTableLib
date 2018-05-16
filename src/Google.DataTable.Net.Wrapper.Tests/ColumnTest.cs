@@ -35,7 +35,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public void RoleGetsProperlySerialized()
         {
             //Arrange ------------------
-            string columnJson;
+            string columnJson = null;
 
             var column = new Column(ColumnType.String)
                 {
@@ -43,9 +43,12 @@ namespace Google.DataTable.Net.Wrapper.Tests
                 };
 
             //Act ----------------------
-            using (var ms = new MemoryStream())
+            MemoryStream ms = null;
+            try
             {
-                var sw = new StreamWriter(ms);
+                ms = new MemoryStream();
+
+                StreamWriter sw = new StreamWriter(ms);
 
                 column.GetJson(sw);
 
@@ -56,6 +59,13 @@ namespace Google.DataTable.Net.Wrapper.Tests
                     columnJson = sr.ReadToEnd();
                 }
             }
+            catch (System.Exception)
+            {
+
+                if (ms != null)
+                    ms.Dispose();
+            }
+            
 
             //Assert -------------------
             Assert.That(columnJson != null);

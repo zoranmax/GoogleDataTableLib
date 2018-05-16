@@ -29,10 +29,10 @@ namespace Google.DataTable.Net.Wrapper.Tests
     public class SystemDataTableConverterTest
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        //[ExpectedException(typeof(ArgumentNullException))]
         public void ConverterThrowsErrorIfDataTableParameterIsNull()
         {
-            SystemDataTableConverter.Convert(null);
+            Assert.Throws<ArgumentNullException>(() => SystemDataTableConverter.Convert(null));
         }
 
         [Test]

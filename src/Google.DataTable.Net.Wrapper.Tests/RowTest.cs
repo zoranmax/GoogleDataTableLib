@@ -15,6 +15,7 @@
    limitations under the License.
 */
 
+using System;
 using NUnit.Framework;
 using System.Linq;
 using System.Collections.Generic;
@@ -120,7 +121,6 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test]
-        [ExpectedException(typeof (System.ArgumentOutOfRangeException))]
         public void AddARangeOfCellsThatHaveMoreItemsThanColumnsRaisesException()
         {
             //Arrange ------------
@@ -128,11 +128,9 @@ namespace Google.DataTable.Net.Wrapper.Tests
             r.ColumnTypes = new List<ColumnType>() {ColumnType.Number};
             Cell c = new Cell(100);
             Cell c2 = new Cell(200);
-            //Act -----------------
-            r.AddCellRange(new[] {c, c2});
 
-            //Assert --------------
-
+            //Act/Assert -----------------
+            Assert.Throws<ArgumentOutOfRangeException>(() => r.AddCellRange(new[] { c, c2 }));
         }
     }
 }

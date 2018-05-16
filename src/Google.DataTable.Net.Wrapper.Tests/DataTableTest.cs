@@ -110,7 +110,6 @@ namespace Google.DataTable.Net.Wrapper.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(Exception))]
         public void ColumnsWithTheSameIdAreNotAccepted()
         {
             const string COLUMN_NAME = "whatever_column_name";
@@ -122,14 +121,11 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Act -----------------
             dt.AddColumn(col);
-            dt.AddColumn(col2);
 
-            //Assert --------------
-            //mentioned in the header as the attribute.
+            Assert.Throws<Exception>(() => dt.AddColumn(col2));
         }
 
         [Test(Description = "Unfortunately, is a known issue that the deserialization for a custom generated class doesn't work")]
-        [ExpectedException(typeof(SerializationException))]
         public void CanDeserializeDataTableJsonWithJSonNet()
         {
             //Arrange ------------
@@ -137,11 +133,9 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Act ----------------
             var json = dt.GetJson();
-            var des = DeserializeFromJson(json);
 
-            //Assert --------------
-            Assert.IsTrue(json != null);
-            Assert.IsTrue(des != null);
+            //Assert -------------
+            Assert.Throws<SerializationException>(() => DeserializeFromJson(json));
         }
 
         private DataTable DeserializeFromJson(string json)

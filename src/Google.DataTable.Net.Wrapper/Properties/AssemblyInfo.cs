@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Google.DataTable.Net.Wrapper")]
-[assembly: AssemblyCopyright("Zoran Maksimovic © 2014, http://www.agile-code.com")]
+[assembly: AssemblyCopyright("Zoran Maksimovic © 2018, http://www.agile-code.com")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,8 +33,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.1.2.0")]
-[assembly: AssemblyFileVersion("3.1.2.0")]
+[assembly: AssemblyVersion("4.0.0.0")]
+[assembly: AssemblyFileVersion("4.0.0.0")]
 
 //Exceptionally marking this assembly internal members to the testing package.
 [assembly: InternalsVisibleTo("Google.DataTable.Net.Wrapper.Tests")]
