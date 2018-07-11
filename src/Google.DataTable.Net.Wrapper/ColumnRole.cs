@@ -115,5 +115,22 @@ namespace Google.DataTable.Net.Wrapper
         {
             get { return "data"; }
         }
+
+        /// <summary>
+        /// Styles certain properties of different aspects of your data. Those values are:
+        /// color
+        /// opacity
+        /// stroke-width
+        /// stroke-color
+        /// stroke-opacity
+        /// fill-color
+        /// fill-opacity
+        /// </summary>
+        public static string Style
+        {
+            get { return "style";  }
+        }
+
+
     }
 }
