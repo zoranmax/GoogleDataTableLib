@@ -99,7 +99,7 @@ namespace Google.DataTable.Net.Wrapper.Extension
         /// <summary>
         /// Convert a List{T} to a DataTable.
         /// </summary>
-        private System.Data.DataTable ToDataTable<T>(List<T> items)
+        private System.Data.DataTable ToDataTable(List<T> items)
         {
             var tb = new System.Data.DataTable(typeof (T).Name);
 

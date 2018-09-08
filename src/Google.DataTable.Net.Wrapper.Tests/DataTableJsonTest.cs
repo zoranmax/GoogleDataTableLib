@@ -15,13 +15,8 @@
    limitations under the License.
 */
 
-using System.Web.Script.Serialization;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Google.DataTable.Net.Wrapper.Tests
 {
@@ -167,22 +162,25 @@ namespace Google.DataTable.Net.Wrapper.Tests
 
             //Assert --------------
             Assert.IsTrue(json != null);
-            var jsonObject = JsonHelper.GetDynamicFromJson(json);
+
+            dynamic jsonObject = JsonHelper.GetDynamicFromJson(json);
+
 
             //retrieving the ordinal position of the object
-            var value = jsonObject["rows"][0]["c"][0]["v"];
-            var formatted = jsonObject["rows"][0]["c"][0]["f"];
+            var value = jsonObject.rows[0].c[0].v.ToString();
+            var formatted = jsonObject.rows[0].c[0].f.ToString();
 
-            var valueCell2 = jsonObject["rows"][0]["c"][1]["v"];
-            var formattedCell2= jsonObject["rows"][0]["c"][1]["f"];
+            var valueCell2 = jsonObject.rows[0].c[1].v.ToString();
+            var formattedCell2= jsonObject.rows[0].c[1].f.ToString();
 
             Assert.That(value == "Year");
             Assert.That(formatted == "MyYears");
             Assert.That(valueCell2 == "Date(2013, 0, 1)");
             Assert.That(formattedCell2 == "Now");
+             
         }       
         
-        [Test(Description="Checks that the properties assigned to the Row can be properly serialized")]
+         [Test(Description="Checks that the properties assigned to the Row can be properly serialized")]
         public void DataTable_CanSerializeRowPropertyMap()
         {
             //Arrange ------------
@@ -196,8 +194,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
             for (int i = 0; i < 1; i++)
             {
                 var row = dt.NewRow();
-                row.AddCell(new Cell() {Value = DateTime.Now.AddDays(-i), Formatted = "Year"});
-                row.AddCell(new Cell() {Value = i});
+                row.AddCell(new Cell() { Value = DateTime.Now.AddDays(-i), Formatted = "Year" });
+                row.AddCell(new Cell() { Value = i });
                 row.AddProperty(new Property("style", "border:1"));
                 row.AddProperty(new Property("fake", "fakeValue"));
                 dt.AddRow(row);
@@ -211,8 +209,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
             var jsonObject = JsonHelper.GetDynamicFromJson(json);
 
             //retrieving the ordinal position of the object
-            var style = jsonObject["rows"][0]["p"]["style"];
-            var fake = jsonObject["rows"][0]["p"]["fake"];
+            var style = jsonObject.rows[0].p.style.ToString();   
+            var fake = jsonObject.rows[0].p.fake.ToString();
 
             Assert.That(style == "border:1");
             Assert.That(fake == "fakeValue");
@@ -232,8 +230,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
             for (int i = 0; i < 1; i++)
             {
                 var row = dt.NewRow();
-                var cell1 = new Cell() {Value = DateTime.Now.AddDays(-i), Formatted = "Year"};
-                var cell2 = new Cell() {Value = i};
+                var cell1 = new Cell() { Value = DateTime.Now.AddDays(-i), Formatted = "Year" };
+                var cell2 = new Cell() { Value = i };
 
                 cell1.AddProperty(new Property("style", "border:1"));
                 cell1.AddProperty(new Property("fake", "fakeValue"));
@@ -242,8 +240,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
                 cell2.AddProperty(new Property("fake", "fakeValue2"));
 
                 row.AddCell(cell1);
-                row.AddCell(cell2);  
-              
+                row.AddCell(cell2);
+
                 dt.AddRow(row);
             }
 
@@ -254,11 +252,12 @@ namespace Google.DataTable.Net.Wrapper.Tests
             var jsonObject = JsonHelper.GetDynamicFromJson(json);
 
             //retrieving the ordinal position of the object
-            var style = jsonObject["rows"][0]["c"][0]["p"]["style"];
-            var fake = jsonObject["rows"][0]["c"][0]["p"]["fake"];
+            var style = jsonObject.rows[0].c[0].p.style.ToString();
+            var fake = jsonObject.rows[0].c[0].p.fake.ToString();
 
-            var style2 = jsonObject["rows"][0]["c"][1]["p"]["style"];
-            var fake2 = jsonObject["rows"][0]["c"][1]["p"]["fake"];
+            var style2 = jsonObject.rows[0].c[1].p.style.ToString();
+            var fake2 = jsonObject.rows[0].c[1].p.fake.ToString();
+
 
             Assert.That(style == "border:1");
             Assert.That(fake == "fakeValue");
