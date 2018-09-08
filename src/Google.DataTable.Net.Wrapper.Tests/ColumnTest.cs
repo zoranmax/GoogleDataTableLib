@@ -15,7 +15,6 @@
    limitations under the License.
 */
 
-using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 
@@ -31,7 +30,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.That(c != null);
         }
 
-        [Test(Description = "Checks that the Role field get's retruend in the json string")]
+        [Test(Description = "Checks that the Role field get's returned in the json string")]
         public void RoleGetsProperlySerialized()
         {
             //Arrange ------------------
@@ -66,19 +65,13 @@ namespace Google.DataTable.Net.Wrapper.Tests
                     ms.Dispose();
             }
             
-
             //Assert -------------------
             Assert.That(columnJson != null);
 
             //check the values
-            var dictionary = JsonHelper.GetDictionaryFromJson(columnJson);
-            var pDictionary = (Dictionary<string,object>)dictionary["p"];
-            Assert.That(pDictionary != null);
-            Assert.That(pDictionary["role"] != null);
-
-            object roleValue;
-            pDictionary.TryGetValue("role", out roleValue);
-            Assert.That(((string) roleValue) == ColumnRole.Annotation);            
+            dynamic restoredCol = JsonHelper.GetDynamicFromJson(columnJson);
+            
+            Assert.That(restoredCol.p.role.ToString() == ColumnRole.Annotation); 
         }
 
         [Test(Description = "If the property and role are specified, this tests that the output in json gets generated properly")]
@@ -86,10 +79,13 @@ namespace Google.DataTable.Net.Wrapper.Tests
         {
             //Arrange ------------------
             string columnJson;
+            string PROP_VALUE = "value";
 
-            var column = new Column(ColumnType.String);
-            column.Role = ColumnRole.Annotation;
-            column.AddProperty(new Property("property1", "value"));
+            var column = new Column(ColumnType.String)
+            {
+                Role = ColumnRole.Annotation
+            };
+            column.AddProperty(new Property("property1", PROP_VALUE));
 
             //Act ----------------------
             using (var ms = new MemoryStream())
@@ -109,19 +105,9 @@ namespace Google.DataTable.Net.Wrapper.Tests
             //Assert -------------------
             Assert.That(columnJson != null);
 
-            var dictionary = JsonHelper.GetDictionaryFromJson(columnJson);
-
-            object roleValue;
-            object propValue;
-
-            var pDictionary = (Dictionary<string, object>)dictionary["p"];
-            pDictionary.TryGetValue("role", out roleValue);
-            pDictionary.TryGetValue("property1", out propValue);
-
-            Assert.That(pDictionary != null);
-            Assert.That(pDictionary["role"] != null);
-            Assert.That(((string)roleValue) == ColumnRole.Annotation);
-            Assert.That(((string)propValue) == "value");
+            dynamic restoredCol = JsonHelper.GetDynamicFromJson(columnJson);
+            Assert.That(restoredCol.p.role.ToString() == ColumnRole.Annotation);
+            Assert.That(restoredCol.p.property1.ToString() == PROP_VALUE);
         }
     }
 }

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 
 namespace Google.DataTable.Net.Wrapper.Tests
 {
@@ -17,23 +15,13 @@ namespace Google.DataTable.Net.Wrapper.Tests
         /// <returns></returns>
         public static bool IsValidJson(string jsonString)
         {
-            var serializer = new JavaScriptSerializer();
-            var result = serializer.Deserialize<Dictionary<string, object>>(jsonString);
-
-            return result != null && result.Count > 0;
-        }
-
-        public static Dictionary<string, object> GetDictionaryFromJson(string jsonString)
-        {
-            var serializer = new JavaScriptSerializer();
-            var result = serializer.Deserialize<Dictionary<string, object>>(jsonString);
-            return result;
+            var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
+            return result != null && result.Count() > 0;
         }
 
         public static dynamic GetDynamicFromJson(string json)
         {
-            var serializer = new JavaScriptSerializer();
-            dynamic result = serializer.DeserializeObject(json);
+            dynamic result = JObject.Parse(json);
             return result;
         }
     }

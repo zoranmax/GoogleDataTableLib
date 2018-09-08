@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.DataTable.Net.Wrapper", "Google.DataTable.Net.Wrapper\Google.DataTable.Net.Wrapper.csproj", "{659D40F8-812A-4053-86FD-B6D7F99E43C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.DataTable.Net.Wrapper", "Google.DataTable.Net.Wrapper\Google.DataTable.Net.Wrapper.csproj", "{7AD9CCF6-0087-4878-864C-4A787A406244}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.DataTable.Net.Wrapper.Tests", "Google.DataTable.Net.Wrapper.Tests\Google.DataTable.Net.Wrapper.Tests.csproj", "{E5E757D8-1031-498A-BB5F-512606A11472}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.DataTable.Net.Examples", "Google.DataTable.Net.Examples\Google.DataTable.Net.Examples.csproj", "{E28EF0DC-D574-42B6-9A1C-D7D77F5EBD5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.DataTable.Net.Wrapper.Tests", "Google.DataTable.Net.Wrapper.Tests\Google.DataTable.Net.Wrapper.Tests.csproj", "{8F9FD6B9-ACEF-4CEB-BA24-3579349E9B40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,20 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{659D40F8-812A-4053-86FD-B6D7F99E43C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{659D40F8-812A-4053-86FD-B6D7F99E43C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{659D40F8-812A-4053-86FD-B6D7F99E43C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{659D40F8-812A-4053-86FD-B6D7F99E43C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E5E757D8-1031-498A-BB5F-512606A11472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5E757D8-1031-498A-BB5F-512606A11472}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5E757D8-1031-498A-BB5F-512606A11472}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5E757D8-1031-498A-BB5F-512606A11472}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E28EF0DC-D574-42B6-9A1C-D7D77F5EBD5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E28EF0DC-D574-42B6-9A1C-D7D77F5EBD5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E28EF0DC-D574-42B6-9A1C-D7D77F5EBD5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E28EF0DC-D574-42B6-9A1C-D7D77F5EBD5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AD9CCF6-0087-4878-864C-4A787A406244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AD9CCF6-0087-4878-864C-4A787A406244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AD9CCF6-0087-4878-864C-4A787A406244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AD9CCF6-0087-4878-864C-4A787A406244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F9FD6B9-ACEF-4CEB-BA24-3579349E9B40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F9FD6B9-ACEF-4CEB-BA24-3579349E9B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F9FD6B9-ACEF-4CEB-BA24-3579349E9B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F9FD6B9-ACEF-4CEB-BA24-3579349E9B40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D584A44C-5725-4749-87E2-28CC05EDDEF3}
 	EndGlobalSection
 EndGlobal
