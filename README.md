@@ -16,9 +16,9 @@ For further information, please check:
 ## Contact me
 Currently trying to build a list of sites using the Google DataTable .NET Wrapper library. If you want to share your experience using the library or if you want that a link to your site to appear here, please [contact me](http://www.agile-code.com/contact) so 
 
-## Version 4.0.0.0 is now published as a pre-release:
+## Version 4.0.0.0 is now published:
 For more information please check the following location.
-https://www.nuget.org/packages/Google.DataTable.Net.Wrapper/4.0.0-rc1
+https://www.nuget.org/packages/Google.DataTable.Net.Wrapper/4.0.0
 
 ## Version 3.1.2.0 is now available for download:
 For more information please check the following location.
