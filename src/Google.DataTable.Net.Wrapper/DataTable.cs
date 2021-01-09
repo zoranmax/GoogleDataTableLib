@@ -227,7 +227,7 @@ namespace Google.DataTable.Net.Wrapper
                 var formatted = currentCell.Formatted;
                 if (!string.IsNullOrEmpty(formatted))
                 {
-                    sw.Write(", \"f\": \"" + formatted + "\"");
+                    sw.Write(", \"f\": \"" + Helper.EscapeJsonString(formatted) + "\"");
                 }
             }
 
