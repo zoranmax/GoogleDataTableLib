@@ -63,6 +63,10 @@ namespace Google.DataTable.Net.Wrapper.Common
 
         public static string EscapeJsonString(string text)
         {
+            if (!DataTable.EnableJsonStringEscaping) return text;
+
+            if (DataTable.JsonStringEscapingCallback != null) return DataTable.JsonStringEscapingCallback(text);
+
             // This doesn't cover all the fancy escaping stuff,
             // but it covers the two potentially most common characters,
             // and provides a place to easily include more.
