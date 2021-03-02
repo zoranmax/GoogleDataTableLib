@@ -266,6 +266,122 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.That(fake2 == "fakeValue2");
         }
 
+        [Test]
+        public void DataTable_WillEscapeControlCharactersInColumn()
+        {
+            DataTable.EnableJsonStringEscaping = true;
+
+            const string quote = "\"";
+            const string slash = "\\";
+            const string colId = "Id " + quote + " " + slash;
+            const string colLabel = "Label " + quote + " " + slash;
+
+            //Arrange ------------
+            DataTable dt = GetNewDataTableInstance();
+            dt.AddColumn(new Column(ColumnType.String, colId, colLabel));
+
+            //Act -----------------
+            var json = dt.GetJson();
+ 
+            //Assert --------------
+            Assert.IsTrue(json != null);
+            Assert.IsTrue(IsValidJson(json));
+
+            var jsonObject = JsonHelper.GetDynamicFromJson(json);
+            Assert.That(jsonObject.cols[0].id.Value == colId);
+            Assert.That(jsonObject.cols[0].label.Value == colLabel);
+        }
+
+        [Test]
+        public void DataTable_WillEscapeControlCharactersInCell()
+        {
+            DataTable.EnableJsonStringEscaping = true;
+            
+            const string quote = "\"";
+            const string slash = "\\";
+            const string cellValue = "Value " + quote + " " + slash;
+            const string cellFormattedValue = "ValueFormatted " + quote + " " + slash;
+
+            //Arrange ------------
+            DataTable dt = GetNewDataTableInstance();
+            dt.AddColumn(new Column(ColumnType.String, "Doesn't matter"));
+
+            var row = dt.NewRow();
+            var cell = new Cell() { Value = cellValue, Formatted = cellFormattedValue };
+            row.AddCell(cell);
+            dt.AddRow(row);
+
+            //Act -----------------
+            var json = dt.GetJson();
+ 
+            //Assert --------------
+            Assert.IsTrue(json != null);
+            Assert.IsTrue(IsValidJson(json));
+
+            var jsonObject = JsonHelper.GetDynamicFromJson(json);
+            Assert.That(jsonObject.rows[0].c[0].v.Value == cellValue);
+            Assert.That(jsonObject.rows[0].c[0].f.Value == cellFormattedValue);
+        }
+
+        [Test]
+        public void DataTable_WillEscapeControlCharactersInCellProperties()
+        {
+            DataTable.EnableJsonStringEscaping = true;
+            
+            const string quote = "\"";
+            const string slash = "\\";
+            const string propName = "Prop " + quote + " " + slash;
+            const string propValue = "Prop " + quote + " " + slash;
+
+            //Arrange ------------
+            DataTable dt = GetNewDataTableInstance();
+            dt.AddColumn(new Column(ColumnType.String, "Doesn't matter"));
+
+            var row = dt.NewRow();
+            var cell = new Cell() { Value = "Irrelevant" };
+            cell.AddProperty(new Property(propName, propValue));
+            row.AddCell(cell);
+            dt.AddRow(row);
+
+            //Act -----------------
+            var json = dt.GetJson();
+ 
+            //Assert --------------
+            Assert.IsTrue(json != null);
+            Assert.IsTrue(IsValidJson(json));
+
+            var jsonObject = JsonHelper.GetDynamicFromJson(json);
+            Assert.That(jsonObject.rows[0].c[0].p[propName] == propValue);
+        }
+
+
+        [Test]
+        public void DataTable_WillEscapeControlCharactersUsingCustomCallback()
+        {
+            const string quote = "\"";
+            const string slash = "\\";
+            const string colId = "Id " + quote + " " + slash;
+            const string colLabel = "Label " + quote + " " + slash;
+
+            DataTable.EnableJsonStringEscaping = true;
+            DataTable.JsonStringEscapingCallback = value => value.Replace(quote, "{quote}").Replace(slash, "{slash}");;
+
+            //Arrange ------------
+            DataTable dt = GetNewDataTableInstance();
+            dt.AddColumn(new Column(ColumnType.String, colId, colLabel));
+
+            //Act -----------------
+            var json = dt.GetJson();
+ 
+            //Assert --------------
+            Assert.IsTrue(json != null);
+            Assert.IsTrue(IsValidJson(json));
+
+            var jsonObject = JsonHelper.GetDynamicFromJson(json);
+            Assert.That(jsonObject.cols[0].id.Value == "Id {quote} {slash}");
+            Assert.That(jsonObject.cols[0].label.Value == "Label {quote} {slash}");
+        }
+
         /// <summary>
         /// Checks that the returned Json string can be deserialized into an object.
         /// This can be used to check if the JSON is valid.

@@ -25,7 +25,7 @@ namespace Google.DataTable.Net.Wrapper.Common
         {
             if (text != null)
             {
-                sw.Write(string.Format("\"{0}\": \"{1}\" ", property, text));
+                sw.Write(string.Format("\"{0}\": \"{1}\" ", property, Helper.EscapeJsonString(text)));
                 return true;
             }
             return false;
@@ -41,7 +41,7 @@ namespace Google.DataTable.Net.Wrapper.Common
                 }
                 else
                 {
-                    sw.Write(string.Format("\"{0}\": \"{1}\" ", property, text));
+                    sw.Write(string.Format("\"{0}\": \"{1}\" ", property, Helper.EscapeJsonString(text)));
                 }
                 return true;
             }            

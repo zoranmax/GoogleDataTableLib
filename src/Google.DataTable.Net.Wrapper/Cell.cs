@@ -161,9 +161,6 @@ namespace Google.DataTable.Net.Wrapper
                             break;
                     }
                     break;
-                case ColumnType.String:
-                    returnValue = "\"" + value.ToString() + "\"";
-                    break;
                 case ColumnType.Boolean:
                     returnValue = (bool) value ? "true" : "false";
                     break;
@@ -180,8 +177,10 @@ namespace Google.DataTable.Net.Wrapper
                      var tod = (DateTime)value;
                      returnValue = string.Format("[\"{0}, {1}, {2}\"]", tod.Hour, tod.Minute, tod.Second);
                      break;
+
+                case ColumnType.String:
                 default:
-                     returnValue = "\"" + value.ToString() + "\"";
+                    returnValue = "\"" + Helper.EscapeJsonString(value.ToString()) + "\"";
                     break;
             }
             return returnValue;

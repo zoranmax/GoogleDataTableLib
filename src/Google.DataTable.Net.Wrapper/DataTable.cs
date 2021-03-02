@@ -37,6 +37,20 @@ namespace Google.DataTable.Net.Wrapper
     [Serializable]
     public class DataTable : ISerializable
     {
+        /// <summary>
+        /// Turns on or off the use of character escaping when the JSON string is built.
+        /// 
+        /// Defaults to false (for backward compatibility reasons).
+        /// </summary>
+        public static bool EnableJsonStringEscaping { get; set; }
+
+        /// <summary>
+        /// If specified, this callback will be used to perform the Json string escaping instead of the built-in method.
+        /// Useful if there are special characters that need escaping that this library does not cover.
+        /// DataTable.EnableJsonStringEscaping must be enabled for this to be used.
+        /// </summary>
+        public static Func<string, string> JsonStringEscapingCallback { get; set; }
+
         private readonly List<Row> _rows;
         private readonly List<Column> _columns;
         //internal cache of available column types.
@@ -227,7 +241,7 @@ namespace Google.DataTable.Net.Wrapper
                 var formatted = currentCell.Formatted;
                 if (!string.IsNullOrEmpty(formatted))
                 {
-                    sw.Write(", \"f\": \"" + formatted + "\"");
+                    sw.Write(", \"f\": \"" + Helper.EscapeJsonString(formatted) + "\"");
                 }
             }
 

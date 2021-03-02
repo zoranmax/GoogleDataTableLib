@@ -50,7 +50,7 @@ namespace Google.DataTable.Net.Wrapper.Common
                 {
                     Property currentProperty = properties.ElementAt(p);
 
-                    sw.Write("\"" + currentProperty.Name + "\" : \"" + currentProperty.Value + "\"");
+                    sw.Write("\"" + EscapeJsonString(currentProperty.Name) + "\" : \"" + EscapeJsonString(currentProperty.Value) + "\"");
 
                     if (p != lastProperty)
                     {
@@ -59,6 +59,26 @@ namespace Google.DataTable.Net.Wrapper.Common
                 }
                 sw.Write("}");
             }
+        }
+
+        public static string EscapeJsonString(string text)
+        {
+            if (!DataTable.EnableJsonStringEscaping) return text;
+
+            if (DataTable.JsonStringEscapingCallback != null) return DataTable.JsonStringEscapingCallback(text);
+
+            // This doesn't cover all the fancy escaping stuff,
+            // but it covers the two potentially most common characters,
+            // and provides a place to easily include more.
+
+            // JSON RFC, string section: https://tools.ietf.org/html/rfc7159#section-7
+
+            // make sure the \ -> \\ replacement is the first one, or it
+            // will screw up the rest.
+            // Don't ask me how I know that.
+            return text?
+                .Replace("\\", "\\\\")  // replace \ with \\
+                .Replace("\"", "\\\""); // replace " with \"
         }
     }
 }
