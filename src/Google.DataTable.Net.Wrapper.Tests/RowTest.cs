@@ -19,6 +19,7 @@ using System;
 using NUnit.Framework;
 using System.Linq;
 using System.Collections.Generic;
+using gt = Google.DataTable.Net.Wrapper;
 
 namespace Google.DataTable.Net.Wrapper.Tests
 {
@@ -29,7 +30,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public void Row_RowWithDefaultValues()
         {
             //Arrange ------------
-            Row r = new Row(); //this is an internal constructor!
+            var r = new gt.Row(); //this is an internal constructor!
 
             //Act -----------------
 
@@ -43,7 +44,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public void Row_CanAddACell()
         {
             //Arrange ------------
-            Row r = new Row();
+            var r = new gt.Row();
             r.ColumnTypes = new List<ColumnType>() {ColumnType.Number};
             Cell c = new Cell(100, "100");
 
@@ -58,7 +59,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public void CanAddARangeOfCells()
         {
             //Arrange ------------
-            Row r = new Row();
+            var r = new gt.Row();
             r.ColumnTypes = new List<ColumnType>() {ColumnType.Number, ColumnType.Number};
 
             Cell c = new Cell(100);
@@ -74,7 +75,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public void CanAddAndRetrieveAProperty()
         {
             //Arrange ------------
-            var row = new Row();
+            var row = new gt.Row();
             const string propertyName = "STYLE";
             const string propertyValue = "border: 7px solid orange";
 
@@ -92,7 +93,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public void CanRemovePropertyFromThePropertyMap()
         {
             //Arrange ------------
-            var row = new Row();
+            var row = new gt.Row();
             const string propertyName = "STYLE";
             const string propertyValue = "border: 7px solid orange";
 
@@ -108,7 +109,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public void CanRemovePropertyByIndexFromThePropertyMap()
         {
             //Arrange ------------
-            var row = new Row();
+            var row = new gt.Row();
             const string propertyName = "STYLE";
             const string propertyValue = "border: 7px solid orange";
 
@@ -124,7 +125,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         public void AddARangeOfCellsThatHaveMoreItemsThanColumnsRaisesException()
         {
             //Arrange ------------
-            Row r = new Row();
+            var r = new gt.Row();
             r.ColumnTypes = new List<ColumnType>() {ColumnType.Number};
             Cell c = new Cell(100);
             Cell c2 = new Cell(200);

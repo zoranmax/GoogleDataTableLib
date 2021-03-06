@@ -17,6 +17,7 @@
 
 using System.IO;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Google.DataTable.Net.Wrapper.Tests
 {
@@ -37,9 +38,9 @@ namespace Google.DataTable.Net.Wrapper.Tests
             string columnJson = null;
 
             var column = new Column(ColumnType.String)
-                {
-                    Role = ColumnRole.Annotation
-                };
+            {
+                Role = ColumnRole.Annotation
+            };
 
             //Act ----------------------
             MemoryStream ms = null;
@@ -64,14 +65,13 @@ namespace Google.DataTable.Net.Wrapper.Tests
                 if (ms != null)
                     ms.Dispose();
             }
-            
+
             //Assert -------------------
             Assert.That(columnJson != null);
 
             //check the values
-            dynamic restoredCol = JsonHelper.GetDynamicFromJson(columnJson);
-            
-            Assert.That(restoredCol.p.role.ToString() == ColumnRole.Annotation); 
+            ColumnTested restoredCol = JsonHelper.GetFromJson<ColumnTested>(columnJson);
+            Assert.That(restoredCol.p.role.ToString() == ColumnRole.Annotation);
         }
 
         [Test(Description = "If the property and role are specified, this tests that the output in json gets generated properly")]
@@ -105,9 +105,11 @@ namespace Google.DataTable.Net.Wrapper.Tests
             //Assert -------------------
             Assert.That(columnJson != null);
 
-            dynamic restoredCol = JsonHelper.GetDynamicFromJson(columnJson);
+            ColumnTested restoredCol = JsonHelper.GetFromJson<ColumnTested>(columnJson);
             Assert.That(restoredCol.p.role.ToString() == ColumnRole.Annotation);
             Assert.That(restoredCol.p.property1.ToString() == PROP_VALUE);
         }
+
+
     }
 }

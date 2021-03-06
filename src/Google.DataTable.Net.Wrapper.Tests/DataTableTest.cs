@@ -45,7 +45,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
         {
             //Arrange ------------
             DataTable dt = GetNewDataTableInstance();
-            Row row = dt.NewRow();
+            var row = dt.NewRow();
 
             //Act -----------------
             dt.AddRow(row);
@@ -97,7 +97,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             dt.AddColumn(dateTimeColumn);
             dt.AddColumn(dateColumn);
 
-            Row r = dt.NewRow();
+            var r = dt.NewRow();
             r.AddCell(new Cell(DateTime.Now)); // DateTime column value
             r.AddCell(new Cell(DateTime.Now)); // Date columnvalue 
             dt.AddRow(r);

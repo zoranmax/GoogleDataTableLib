@@ -12,17 +12,17 @@ namespace Google.DataTable.Net.Wrapper.Tests
         /// This can be used to check if the JSON is valid.
         /// </summary>
         /// <param name="jsonString"></param>
-        /// <returns></returns>
+        /// <returns></returns> 
         public static bool IsValidJson(string jsonString)
         {
             var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
             return result != null && result.Count() > 0;
         }
 
-        public static dynamic GetDynamicFromJson(string json)
+        public static T GetFromJson<T>(string json) where T : class
         {
-            dynamic result = JObject.Parse(json);
-            return result;
+            var result = JsonConvert.DeserializeObject<T>(json);
+            return result as T;
         }
     }
 }

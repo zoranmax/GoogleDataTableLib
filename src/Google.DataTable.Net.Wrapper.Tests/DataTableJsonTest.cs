@@ -163,8 +163,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             //Assert --------------
             Assert.IsTrue(json != null);
 
-            dynamic jsonObject = JsonHelper.GetDynamicFromJson(json);
-
+            ColumnTested jsonObject = JsonHelper.GetFromJson<ColumnTested>(json);
 
             //retrieving the ordinal position of the object
             var value = jsonObject.rows[0].c[0].v.ToString();
@@ -205,8 +204,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             var json = dt.GetJson();
 
             //Assert --------------
-
-            var jsonObject = JsonHelper.GetDynamicFromJson(json);
+            var jsonObject = JsonHelper.GetFromJson<ColumnTested>(json);
 
             //retrieving the ordinal position of the object
             var style = jsonObject.rows[0].p.style.ToString();   
@@ -249,7 +247,7 @@ namespace Google.DataTable.Net.Wrapper.Tests
             var json = dt.GetJson();
 
             //Assert --------------
-            var jsonObject = JsonHelper.GetDynamicFromJson(json);
+            var jsonObject = JsonHelper.GetFromJson<ColumnTested>(json);
 
             //retrieving the ordinal position of the object
             var style = jsonObject.rows[0].c[0].p.style.ToString();
@@ -287,9 +285,9 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.IsTrue(json != null);
             Assert.IsTrue(IsValidJson(json));
 
-            var jsonObject = JsonHelper.GetDynamicFromJson(json);
-            Assert.That(jsonObject.cols[0].id.Value == colId);
-            Assert.That(jsonObject.cols[0].label.Value == colLabel);
+            var jsonObject = JsonHelper.GetFromJson<ColumnTested>(json);
+            Assert.That(jsonObject.cols[0].id == colId);
+            Assert.That(jsonObject.cols[0].label == colLabel);
         }
 
         [Test]
@@ -318,9 +316,9 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.IsTrue(json != null);
             Assert.IsTrue(IsValidJson(json));
 
-            var jsonObject = JsonHelper.GetDynamicFromJson(json);
-            Assert.That(jsonObject.rows[0].c[0].v.Value == cellValue);
-            Assert.That(jsonObject.rows[0].c[0].f.Value == cellFormattedValue);
+            var jsonObject = JsonHelper.GetFromJson<ColumnTested>(json);
+            Assert.That(jsonObject.rows[0].c[0].v == cellValue);
+            Assert.That(jsonObject.rows[0].c[0].f == cellFormattedValue);
         }
 
         [Test]
@@ -350,8 +348,8 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.IsTrue(json != null);
             Assert.IsTrue(IsValidJson(json));
 
-            var jsonObject = JsonHelper.GetDynamicFromJson(json);
-            Assert.That(jsonObject.rows[0].c[0].p[propName] == propValue);
+            var testString= "\"p\": {\"Prop \\\" \\\\\" : \"Prop \\\" \\\\\"}";
+            Assert.That(json.Contains(testString));
         }
 
 
@@ -377,9 +375,9 @@ namespace Google.DataTable.Net.Wrapper.Tests
             Assert.IsTrue(json != null);
             Assert.IsTrue(IsValidJson(json));
 
-            var jsonObject = JsonHelper.GetDynamicFromJson(json);
-            Assert.That(jsonObject.cols[0].id.Value == "Id {quote} {slash}");
-            Assert.That(jsonObject.cols[0].label.Value == "Label {quote} {slash}");
+            var jsonObject = JsonHelper.GetFromJson<ColumnTested>(json);
+            Assert.That(jsonObject.cols[0].id == "Id {quote} {slash}");
+            Assert.That(jsonObject.cols[0].label == "Label {quote} {slash}");
         }
 
         /// <summary>

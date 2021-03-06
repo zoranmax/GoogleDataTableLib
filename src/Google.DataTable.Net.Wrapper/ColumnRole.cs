@@ -130,7 +130,5 @@ namespace Google.DataTable.Net.Wrapper
         {
             get { return "style";  }
         }
-
-
     }
 }

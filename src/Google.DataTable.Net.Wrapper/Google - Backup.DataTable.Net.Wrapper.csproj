@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1;netcoreapp2.0;net40;net45;net452;net46;net461;net5.0</TargetFrameworks>
+    <Version>4.1.0-rc1</Version>
+    <Authors>Zoran Maksimovic</Authors>
+    <Company>Zoran Maksimovic - agile-code.com</Company>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+	<license type="file">License\LICENSE.txt</license>
+    <Description>This library enables the end users to create a lightweight representation of the  google.visualization.DataTable object directly in Microsoft.NET and the creation of the necessary JSON as needed by the Google Chart Tools Javascript library.</Description>
+    <Copyright>Zoran Maksimovic (c) www.agile-code.com</Copyright>
+    <PackageProjectUrl>https://github.com/zoranmax/GoogleDataTableLib</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zoranmax/GoogleDataTableLib.git</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>Google.Visualization, Google Charts, DataTable, Microsoft.NET, JSON, Javascript charts</PackageTags>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageReleaseNotes>Introduced a new flag EnableJsonStringEscaping (set to false to keep backward compatibility) which "Turns on or off the use of character escaping when the JSON string is built.". Special thanks go to https://github.com/sjasperse</PackageReleaseNotes>
+    <RepositoryType>GitHub</RepositoryType>
+  </PropertyGroup>
+
+</Project>
