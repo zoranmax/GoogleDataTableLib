@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp2.1;netcoreapp2.0;net40;net45;net452;net46;net461;net5.0</TargetFrameworks>
-    <Version>4.1.0-rc1</Version>
+    <Version>4.1.0</Version>
     <Authors>Zoran Maksimovic</Authors>
     <Company>Zoran Maksimovic - agile-code.com</Company>
     <Description>This library enables the end users to create a lightweight representation of the  google.visualization.DataTable object directly in Microsoft.NET and the creation of the necessary JSON as needed by the Google Chart Tools Javascript library.</Description>
