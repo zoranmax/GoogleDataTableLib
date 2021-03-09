@@ -14,8 +14,25 @@ For further information, please check:
 * [Improving the Google DataTable .Net Wrapper](http://www.agile-code.com/blog/improving-the-google-datatable-net-wrapper/)
 
 ## Contact me
-Currently trying to build a list of sites using the Google DataTable .NET Wrapper library. If you want to share your experience using the library or if you want that a link to your site to appear here, please [contact me](http://www.agile-code.com/contact) so 
+Currently trying to build a list of sites using the Google DataTable .NET Wrapper library. If you want to share your experience using the library or if you want that a link to your site to appear here, please [contact me](http://www.zoran.me) 
 
+## Version 4.1.0.0 is now published:
+For more information please check the following location
+https://www.nuget.org/packages/Google.DataTable.Net.Wrapper/4.1.0
+
+Out of the new features there is a new flag being added which allows the library to escape the '' and '"' characters.
+This can be done by using the  
+
+```
+  DataTable.EnableJsonStringEscaping; 
+```
+which by default it is set to **false** un order to be backward compatible.
+
+Bit thanks go to https://github.com/sjasperse for implementing this feature!
+
+### Friendly project
+Please check the asp.net core example on how to use the library.
+1. https://github.com/anuraj/AspNetCoreSamples/tree/master/Pizza-Demo
 ## Version 4.0.0.0 is now published:
 For more information please check the following location.
 https://www.nuget.org/packages/Google.DataTable.Net.Wrapper/4.0.0
@@ -26,7 +43,7 @@ For more information please check the following location.
 
 The latest commit [https://googledatatablelib.codeplex.com/SourceControl/changeset/27248](https://googledatatablelib.codeplex.com/SourceControl/changeset/27248) contains a new project with examples that would simplify the life to those who just started using the library.
 
-Tthe package is published on NuGet: [https://www.nuget.org/packages/Google.DataTable.Net.Wrapper/3.1.2](https://www.nuget.org/packages/Google.DataTable.Net.Wrapper/3.1.2)
+The package is published on NuGet: [https://www.nuget.org/packages/Google.DataTable.Net.Wrapper/3.1.2](https://www.nuget.org/packages/Google.DataTable.Net.Wrapper/3.1.2)
 
 ## Version 3.1.0 is now available:
 For more information please check the blog entry:
@@ -43,4 +60,6 @@ Please follow this link: [https://nuget.org/packages/Google.DataTable.Net.Wrappe
 ## Important!
 
 This project is **not** officially affiliated with or supported in any way by Google
+
+
 
