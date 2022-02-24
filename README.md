@@ -33,6 +33,10 @@ Bit thanks go to https://github.com/sjasperse for implementing this feature!
 ### Friendly project
 Please check the asp.net core example on how to use the library.
 1. https://github.com/anuraj/AspNetCoreSamples/tree/master/Pizza-Demo
+2. Google charts with DataTable .NET Wrapper and API data in ASP.NET 6.0 Razor Pages App
+https://www.youtube.com/watch?v=Ie43mv57-5o 
+
+
 ## Version 4.0.0.0 is now published:
 For more information please check the following location.
 https://www.nuget.org/packages/Google.DataTable.Net.Wrapper/4.0.0
